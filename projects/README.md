@@ -2,7 +2,7 @@
 
 ## 主要项目
 
-2026-09-27 已完成六个项目的入口、Git 发布与记录，Cobot 六个项目目录及数据目录也已建立。恢复证据已迁入 cobot-ops 并验收清理原目录，业务代码和服务尚未切换。跨项目迁移由用户指定的当前 cobot_rlt 对话统筹，每次只处理一个可验收范围。
+2026-09-27 已完成六个项目的入口、Git 发布与记录，Cobot 六个项目目录及数据目录也已建立。恢复证据已迁入 cobot-ops 并验收清理原目录，cobot-web 源码与只读预览已迁入新目录，正式服务尚未切换。跨项目迁移由用户指定的当前 cobot_rlt 对话统筹，每次只处理一个可验收范围。
 
 | 项目 | 职责 | 状态 |
 |---|---|---|
@@ -10,7 +10,7 @@
 | [cobot-dagger](cobot-dagger/README.md) | 数采、HIL、mask 与 DAgger 迭代。 | 已初始化并 push；待逐批迁移 |
 | [vla-platform](vla-platform/README.md) | 基于 FluxVLA；模型、Franka／Cobot、RTC 与真机／仿真评测。 | 已初始化并 push；待逐批迁移 |
 | [rl-platform](rl-platform/README.md) | RLT、EXPO-FT 的统一实验入口，保留算法独立实现。 | 已初始化并 push；待逐批迁移 |
-| [cobot-web](cobot-web/README.md) | 网页、API 编排、任务与状态展示。 | 已初始化并 push；待逐批迁移 |
+| [cobot-web](cobot-web/README.md) | 网页、API 编排、任务与状态展示。 | 源码／环境已发布，8018 只读预览已验证；8015 待切换 |
 | [cobot-ops](cobot-ops/README.md) | 使用、部署、健康检查、日志／PID、备份与故障分流。 | 目录与恢复证据迁移已验收；业务待迁移 |
 
 Franka、各模型、RTC、ZR-0／LiLaWAM 及仿真评测归入 vla-platform；RLT、EXPO-FT 归入 rl-platform。归属登记不表示旧代码或资产已完成迁移。每次只迁移一个可验收范围，验证后切换，再清理对应旧文件。

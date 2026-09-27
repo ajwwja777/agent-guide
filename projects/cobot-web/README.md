@@ -8,16 +8,20 @@
 - 迁移清单与验收条件：`/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/MIGRATION.md`。
 - 笔记本：`D:\Code\jiaan_workspace\cobot-web\AGENTS.md`。
 - 仓库：[ajwwja777/cobot-web](https://github.com/ajwwja777/cobot-web)，独立仓库，分支 `main`。
-- Cobot 目标：`/home/agilex/jiaan/project/cobot-web`，本轮未部署或切换。
+- Cobot 运行副本：`/home/agilex/jiaan/project/cobot-web`；只读预览 8018，正式 8015 尚未切换。
 
-## 已完成
+## 当前进度
 
-2026-09-27 已按“目录 → Git push → 记录”建立基础。首次发布 `7d81a477adb6e89625bb9454d6c3d465cc237966`；补充发布记录后提交 `d08e656a6e8f16b3bd4ab64269c270dd9e52a5b8`，均已核验远端 main 与当时本地一致。笔记本入口已创建。业务资产迁移、环境准备和新位置运行验收尚未开始。
+2026-09-27 网页源码、共享 schema、兼容控制代码和 uv 锁定环境已迁入 A6000 主仓库，已 push。源码提交 `1cf4797f4942f2f27d3815943f7e23cab79452df`；启动隔离修复 `117fe141aea17e9081a1db535e557a155fa136f3`。273 个运行文件同步到 Cobot 并逐文件核验；日志／PID 在 cobot-ops/runtime。
+
+保留原统一采集、HIL、部署与输出成果；补充设备健康、内部系统盘空间、ROS 日志竞争修复、重要日志切换和 Ctrl 框选。Python 主包使用 cobot_console、capture_core、segmented_capture。旧协议保持兼容，源码不重复散落到其他项目。
+
+网页后端 529 passed／11 skipped、前端 28 passed；只读预览 29 个资源和主要 API 通过。真实只读反馈确认前臂／中臂使能与通路就绪。未进行机器人运动、实际示教或浏览器目视验收。扩展的历史 robot 测试仍有 ROS 依赖／测试隔离及夹爪断言分歧，详见迁移记录，不宣称硬件验收完成。
 
 ## 下一步与协作
 
-先制作当前页面与 API 的版本快照，迁移一个可隔离的静态资源／只读页面范围，以独立验证入口核对，不占用或替换现有 8015 服务。
+用户正在评测 Reference／准备在线 RL：正式 8015 和全部模型／硬件进程保持原状；等待任务结束并完成兼容验收后再切换，旧目录未删除。切换前需承接旧位姿等配置的新变化，不能仅用 active_mode=null 判断空闲。模型权重、RLT 和旧数据仍使用配置登记的真实原路径，后续分别迁入所属项目。
 
-页面和展示问题由本项目负责；业务状态错误交对应控制／采集／模型／RL 项目；进程、存储和日志异常交 cobot-ops。
+页面／API 编排由本项目负责；robot 兼容验收交 cobot-control，采集内核后续交 cobot-dagger；模型／RL 问题交 vla-platform／rl-platform，存储和运行故障交 cobot-ops。各项目只有一份主实现，按批次交接。
 
-来源：本项目维护入口、迁移记录与本次 GitHub／Git 核验（2026-09-27）。初始化完成不代表业务已迁移。框架只保留接管摘要，具体证据与进度在实际项目内维护。
+来源：A6000 实际源码、Git 远端核验、Cobot 只读观察与 HTTP 验证（2026-09-27）。全部证据与切换条件以实际项目 `docs/MIGRATION.md` 为准。
