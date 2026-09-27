@@ -8,7 +8,7 @@
 - 迁移清单与验收条件：`/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/MIGRATION.md`。
 - 笔记本：`D:\Code\jiaan_workspace\cobot-web\AGENTS.md`。
 - 仓库：[ajwwja777/cobot-web](https://github.com/ajwwja777/cobot-web)，独立仓库，分支 `main`。
-- Cobot 运行副本：`/home/agilex/jiaan/project/cobot-web`；只读预览 8018，正式 8015 尚未切换。
+- Cobot 运行副本：`/home/agilex/jiaan/project/cobot-web`；正式 8015 已切换，另有只读预览 8018。
 
 ## 当前进度
 
@@ -20,7 +20,9 @@
 
 ## 下一步与协作
 
-用户正在评测 Reference／准备在线 RL：正式 8015 和全部模型／硬件进程保持原状；等待任务结束并完成兼容验收后再切换，旧目录未删除。切换前需承接旧位姿等配置的新变化，不能仅用 active_mode=null 判断空闲。模型权重、RLT 和旧数据仍使用配置登记的真实原路径，后续分别迁入所属项目。
+2026-09-27 用户确认停止当前任务并授权切换。正式 8015 已从新目录启动，PID 893608，运行版本 14b4484；机械臂 724550、相机 631028 保持不变。承接有效任务状态和模型设置，672 个评测文件复制到新数据根并逐文件核验。修复 RL 终止时 operator_nodes 请求 schema 缺失引起的 HTTP 503，相关 82 项回归通过。记录详见实际项目 docs/MIGRATION.md。
+
+当前继续完善部署／采集共用模型加载、显示实际模型路径、加载前即可选数据目录。旧目录因硬件／RLT／模型依赖暂不删除；模型权重、RLT 与原始 rollout 数据仍使用登记的真实原路径，后续逐批迁移。
 
 页面／API 编排由本项目负责；robot 兼容验收交 cobot-control，采集内核后续交 cobot-dagger；模型／RL 问题交 vla-platform／rl-platform，存储和运行故障交 cobot-ops。各项目只有一份主实现，按批次交接。
 
