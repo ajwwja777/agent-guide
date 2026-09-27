@@ -10,7 +10,7 @@
 | [cobot-dagger](cobot-dagger/README.md) | 数采、HIL、mask 与 DAgger 迭代。 | 已初始化并 push；待逐批迁移 |
 | [vla-platform](vla-platform/README.md) | 基于 FluxVLA；模型、Franka／Cobot、RTC 与真机／仿真评测。 | 已初始化并 push；待逐批迁移 |
 | [rl-platform](rl-platform/README.md) | RLT、EXPO-FT 的统一实验入口，保留算法独立实现。 | 已初始化并 push；待逐批迁移 |
-| [cobot-web](cobot-web/README.md) | 网页、API 编排、任务与状态展示。 | 正式 8015 已切换并验证；继续完善共享模型加载与采集交互 |
+| [cobot-web](cobot-web/README.md) | 网页、API 编排、任务与状态展示。 | 正式 8015 已切换；共享模型加载／采集交互已发布，待现场操作验收 |
 | [cobot-ops](cobot-ops/README.md) | 使用、部署、健康检查、日志／PID、备份与故障分流。 | 目录与恢复证据迁移已验收；业务待迁移 |
 
 Franka、各模型、RTC、ZR-0／LiLaWAM 及仿真评测归入 vla-platform；RLT、EXPO-FT 归入 rl-platform。归属登记不表示旧代码或资产已完成迁移。每次只迁移一个可验收范围，验证后切换，再清理对应旧文件。
