@@ -2,7 +2,7 @@
 
 ## 主要项目
 
-2026-09-27 最初完成六个项目入口；用户随后取消独立 ops 维护层，当前主要项目为下面五个。已有六个物理目录与历史不直接删除。恢复证据已迁入 cobot-ops 并验收清理原目录，cobot-web 源码、环境与正式 8015 已迁入新目录，旧依赖仍保留。跨项目迁移由用户指定的当前 cobot_rlt 对话统筹，每次只处理一个可验收范围。
+2026-09-27 最初完成六个项目入口；用户随后取消独立 ops 维护层，当前主要项目为下面五个。网页源码、环境、正式 8015、runtime／uv 和恢复证据已归入 cobot-web；三机 ops 本地目录验收后删除。旧硬件、模型、RLT 和历史数据仍保留登记依赖。跨项目迁移由当前 cobot_rlt 对话统筹，每次只处理一个可验收范围。
 
 | 项目 | 职责 | 状态 |
 |---|---|---|
@@ -20,4 +20,4 @@ Franka、各模型、RTC、ZR-0／LiLaWAM 及仿真评测归入 vla-platform；R
 - [EXPO-FT × Cobot](expo-ft/README.md)：已有独立算法仓库，作为 rl-platform 的方法依赖保留；准备进度见原项目记录。
 - [各机器空间清理](storage-cleanup/README.md)：基础已发布至 ajwwja777/storage-cleanup；Windows 盘点与占用核验可用，首次确认清理已留记录。
 
-旧 [cobot-ops](cobot-ops/README.md) 仅保留历史／兼容入口和仍在使用的 runtime；工具与手册已由 cobot-web 接管，不必为日常故障另开 ops 对话。
+ops 不再有独立项目入口；本地目录已清理，历史 Git、备份和删除回执见 [cobot-web](cobot-web/README.md)。

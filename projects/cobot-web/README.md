@@ -12,7 +12,7 @@
 
 ## 当前进度
 
-2026-09-27 网页源码、共享 schema、兼容控制代码和 uv 锁定环境已迁入 A6000 主仓库，已 push。源码提交 `1cf4797f4942f2f27d3815943f7e23cab79452df`；启动隔离修复 `117fe141aea17e9081a1db535e557a155fa136f3`。273 个运行文件同步到 Cobot 并逐文件核验；日志／PID 在 cobot-ops/runtime。
+2026-09-27 网页源码、共享 schema、兼容控制代码和 uv 锁定环境已迁入 A6000 主仓库，已 push。源码提交 `1cf4797f4942f2f27d3815943f7e23cab79452df`；启动隔离修复 `117fe141aea17e9081a1db535e557a155fa136f3`。273 个运行文件同步到 Cobot 并逐文件核验；初次迁移时日志／PID 在 ops/runtime；现已实体归入 cobot-web/runtime，见下方收尾记录。
 
 保留原统一采集、HIL、部署与输出成果；补充设备健康、内部系统盘空间、ROS 日志竞争修复、重要日志切换和 Ctrl 框选。Python 主包使用 cobot_console、capture_core、segmented_capture。旧协议保持兼容，源码不重复散落到其他项目。
 
@@ -33,3 +33,17 @@
 2026-09-27 用户取消独立 ops 维护层。命令行操作手册、网页恢复工具与测试迁入本项目；完整启动、普通／模型采集、共享模型／Session、评测、归位与退出见实际项目 `docs/COMMAND_LINE.md`，HTTP／PID／磁盘故障见 `docs/WEB_RECOVERY.md`。统一入口 `scripts/console.py` 复用网页 API；`recovery` 子命令不依赖 8015 正常。输出栏增加诊断入口，展示请求错误、状态与建议，不自动重试动作。旧 ops/runtime、uv 和现场硬件进程保持兼容，原脚本仅跳转。验证与发布结果以实际项目迁移记录为准。
 
 发布补充：功能及命令登记版本 `94840c1` 已 push，285 个现场文件校验；完整 Python 571 passed／15 skipped，前端 34 passed，后续相关 30 项回归通过。确认 idle/offline 后仅重启网页至 PID 967289，14 个硬件／ROS 进程身份不变；原故障用例首轮时序失败及复查通过均留在实际项目记录。CLI 可列出 6 模型、65 主 API／20 recorder API；输出栏有 61 条常用命令。未加载模型或做实机运动验收。
+
+## runtime 与旧项目清理收尾
+
+2026-09-27：网页不再依赖 ops。runtime 原软链接已替换为本项目实体目录，tools/uv、缓存、任务状态、日志、事故与恢复证据全部接管；2,819 条逐项核验。配置切换代码 b1190dd 已 push，同步 285 个文件，23 项 CLI／恢复测试通过。现场 uv 离线检查 32 包、11 类 API、37 个页面资源与 6 模型目录可读；8015 重启为 PID 982318、8018 为 982430，14 个硬件／ROS 进程身份保持不变。
+
+已删除：A6000 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-ops、Cobot /home/agilex/jiaan/project/cobot-ops、笔记本 D:\Code\jiaan_workspace\cobot-ops；guide 的原 ops 摘要也已归并。旧 Git 最终 b67e3e0 已 push 且 bundle 留档，A6000 保存两机原件备份和删除清单，不丢失原成果。
+
+当前运行根 /home/agilex/jiaan/project/cobot-web；runtime/ 日志与状态、tools/uv、.venv/ 环境。完整终端流程在实际项目 docs/COMMAND_LINE.md，故障处置在 docs/WEB_RECOVERY.md；旧 ui_up/down/status 等脚本名称保留，统一 console.py 扩充模型／采集／评测操作。
+
+旧 cobot-platform 仍被机械臂／相机／ROS 使用，且含约 22 GiB 未验收历史实验归档，因此本轮未删除；RLT、模型、原始 rollout、已安装 ROS/SDK 和 A6000 旧算法项目也保留。未做模型加载、机器人运动或成功率验收。新目录能启动网页，不代表所有算法／硬件项目都已迁完。
+
+证据：实际项目 outputs/verification/20260927-runtime-cleanup、outputs/migrations/20260927-ops-retirement；逐项清理与备份哈希见实际项目 docs/MIGRATION.md。其他项目本次仅修正 ops 归属文档，未迁移业务代码；源码分别已 push。
+
+最终发布：网页迁移记录与终端说明提交 d5fe47769604d894a85a1e7800d883b75944db82 已 push；Cobot 同步 285 文件并逐项核验。运行代码无需因本次文档更新再次重启。GitHub 历史仓库保留，本地旧 ops 目录已实际清理。
