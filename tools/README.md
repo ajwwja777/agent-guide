@@ -15,4 +15,4 @@
 
 2026-09-28：按用户确认，工具归属 agent-guide，迁入本目录随 guide 维护；GitHub／Gist 认证助手已更新。原工具摘要并入本说明，不再作为独立项目登记。顶层 jiaan 的空 Git 元数据已备份到 `/data/LFT-W02_data/jiaan/jiaan/scratch/agent-guide/root-git-backup-20260928-152557`；其他项目 Git 未修改。
 
-核验补充：上级 `/data/LFT-W02_data/jiaan/` 仍有已有 Git 仓库，终端在工作区根可能继续向上识别其分支。本次未修改该上级仓库或其他项目 Git。
+2026-09-28 边界修正：上级 `/data/LFT-W02_data/jiaan/` 是有历史和关联工作区的旧仓库，更上级也有 Git 元数据，均保留。已在 `/home/LFT-W02/.zshenv` 为 `GIT_CEILING_DIRECTORIES` 追加 `/data/LFT-W02_data/jiaan`，阻止新框架向上识别旧仓库。新框架根及 projects 容器不再被识别为仓库，各项目自己的仓库正常识别；已有终端需 `source ~/.zshenv` 生效。修改前配置备份：`/data/LFT-W02_data/jiaan/jiaan/scratch/agent-guide/git-boundary-20260928-153547/zshenv.before`。
