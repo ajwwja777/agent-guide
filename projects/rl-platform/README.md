@@ -1,35 +1,64 @@
 # 统一 RL 实验平台
 
-目标：参考 FluxVLA 的模块化方式组织配置、数据／Replay、采样、学习、模型发布与评测；先接入 RLT，再按现有进度接入 EXPO-FT。
+## 当前交接状态（2026-09-29）
+
+固定RLT算法与参数保留；共享采集/评测边界和目录状态归 integrations/cobot_runtime，不再反向import web Python。录制HTTP仍由web同一个recorder提供，领域库归dagger。现场preflight为Learner5000/Actor2500/warmup锚点2567；在线契约78项、恢复Stage1契约35项通过。两冻结环境在A6000独立恢复导入通过。EXPO-FT保留独立仓库/同步训练，登记为待适配。没有启动真实Episode或更新生产Replay。
+
+已push并核验 main：c6b640ead7d1c869dacce65f224f7d49cd18c553；Cobot副本 /home/agilex/jiaan/project/rl-platform 已逐文件SHA复核。A6000主项目 /data/LFT-W02_data/jiaan/jiaan/projects/rl-platform，先读README结构和docs/DEPLOYMENT.md，详细批次见docs/MIGRATION.md。
+
+数据/模型实体保持 /media/agilex/Getea1/jiaan/{data,model}；本批未搬迁或新增其备份。完整跨项目交付：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/HANDOFF_20260929.md。来源为本次实际源码、Git核验及现场只读检查；guide Git不由本会话提交。
+
+框架复核（2026-09-29）：已只读核对 A6000 项目 HEAD 与 origin/main 一致，并对照实际项目 docs/MIGRATION.md 和 [跨项目交付记录](../../../projects/cobot-web/docs/HANDOFF_20260929.md)。上述测试与现场状态来自项目验收记录，本次未连接 Cobot 或重跑测试；实时 PID、模型与采集状态需现场重新查询。
+
+以下保留此前阶段记录；旧路径、PID与“尚未迁移”描述应按上述最新状态及所属项目迁移记录理解。
 
 ## 入口
 
-- A6000：`/data/LFT-W02_data/jiaan/jiaan/projects/rl-platform`；先读该项目 `AGENTS.md` 和 `README.md`。
-- 迁移清单与验收条件：`/data/LFT-W02_data/jiaan/jiaan/projects/rl-platform/docs/MIGRATION.md`。
-- 笔记本：`D:\Code\jiaan_workspace\rl-platform\AGENTS.md`。
-- 仓库：[ajwwja777/rl-platform](https://github.com/ajwwja777/rl-platform)，独立仓库，分支 `main`。
-- Cobot 目标：`/home/agilex/jiaan/project/rl-platform`，代码已同步，现场服务切换待验收。
+- A6000：`/data/LFT-W02_data/jiaan/jiaan/projects/rl-platform`；先读AGENTS.md与README.md。
+- Cobot：`/home/agilex/jiaan/project/rl-platform`。
+- 仓库：[ajwwja777/rl-platform](https://github.com/ajwwja777/rl-platform)，独立仓库，main分支。
+- 详细记录：`/data/LFT-W02_data/jiaan/jiaan/projects/rl-platform/docs/MIGRATION.md`。
 
-## 已完成
+目标：按方法组织采样、Replay、学习、模型发布与评测；当前接入RLT，EXPO-FT沿已有独立实现推进。迁移保持原算法、5k warmup、数据比例和动作语义。
 
-2026-09-27 已按“目录 → Git push → 记录”建立基础。首次发布 `3063ae62a7043184e7331d877d1e89bb067b18cc`；补充发布记录后提交 `a08a1df03c7d8a416ad5412c9f3210049d7acf1d`，均已核验远端 main 与当时本地一致。笔记本入口已创建。业务资产迁移、环境准备和新位置运行验收尚未开始。
+## 历史阶段状态（2026-09-28）
 
-## 下一步与协作
+- 当前运行代码、模型、Replay、环境和数据均用新根；正式8015共享入口已加载固定5k及最新在线模型到ready/disarmed，再正常释放。
+- 基线learner5000/actor2500/Replay2567；无新数据不更新。A6000与Cobot独立副本测试均通过，一条模拟transition驱动5次更新，重启不重复更新；正式权重和Replay不变。
+- Stage1现场加载约44秒，首次固定输入编译16.8秒，后续约76ms。31文件/15.43GB跨机SHA一致；不是新真机成功率。
+- 11,123数据文件/158.04GB和2内部链接验收后，旧data下rlt/evaluations/cobot-platform/record/test已删除。新数据在/home/agilex/jiaan/data。
+- A6000旧proj-20260904-cobot-realworld-rl已完整归档并删除；479条目一致。历史warmup对比1,731文件已归入outputs/rlt/plug_v3_yyshadow/history。
+- Cobot旧RLT历史39,001条目/122.21GB在A6000全量SHA通过，模型归models/history、数据归data/history；旧路径隔离冷加载/释放通过后，旧RLT及其别名已删除。7.49GB现场环境备份已在A6000完成SHA校验并保留，现场暂存tar已清理。
+- 当前源码918a2bf已push并同步506文件；自有独立upstream ajwwja777/rlt-openpi固定8cef77e，不fork、不向上游提PR。
 
-先登记并验证当前 RLT warmup 5k 模型及现有评测的完整来源，做固定输入的离线加载对照；不启动新的在线学习。
+## 此前阶段的接续
 
-Replay、奖励、learner 与在线更新由本项目负责；推理预处理交 vla-platform；硬件控制交 cobot-control；网页编排交 cobot-web，算法服务和存储由本项目排查。
+本批迁移/归档/清理已完成。最终模型offline、无活动Session、无GPU计算进程，系统盘约77.6GiB可用；后续网页新启动的臂/相机任务保留，5臂反馈与3相机可用。本会话没有归位或真实Episode。现场需短轮次验证HIL、暂停、终止结果和复位，再连续在线采集。完整回执在outputs/migrations/20260928-retirement/cobot/，汇总在outputs/migrations/20260928-cutover/final-summary.json。
 
-来源：本项目维护入口、迁移记录与本次 GitHub／Git 核验（2026-09-27）。初始化完成不代表业务已迁移。框架只保留接管摘要，具体证据与进度在实际项目内维护。
+在线入口：采集页选择/home/agilex/jiaan/data/rlt/plug_v3_yyshadow/online和plug_v3-online-latest；加载完成后才开始Session。固定warmup/Reference是对照，评测不写Replay。完整终端与恢复命令见docs/RUNBOOK.md以及cobot-web/docs/COMMAND_LINE.md、WEB_RECOVERY.md。
 
-## 2026-09-27 RLT 业务迁移进展
+## 协作
 
-主代码已迁入并发布 1f57443c19ac3ae948ca8dcf922b2c29ba0d6cbf；自有 upstream 独立仓库 ajwwja777/rlt-openpi 8cef77e 作为固定子模块。Cobot 同步 501 文件；当前模型、环境复制完成，新路径 preflight 5000/2500/2567 通过。A6000 无机器人恢复测试通过：新增 1 条模拟 transition 后恰好 5 次更新，重启不重复更新。1,731 个历史 warmup 文件已复制、校验到新项目；详见项目 README、RUNBOOK、MIGRATION。
+本项目负责Replay、奖励、learner与在线状态；硬件由cobot-control负责，网页/任务/API由cobot-web负责。录制库暂在web，后续单独交接cobot-dagger。历史58次/22次成功是既有37.9%基线，不能与新路径加载测试或单独Reference目录的成绩混用。
 
-用户允许断电状态重启节点。Cobot SSH/ping 在实际权重验证期间失联，尚未取得 Stage 1 验证结果；数据全量校验／旧资产异机归档未完成，网页路径切换和节点重启未执行，旧项目均保留。优先恢复连接、读取任务结果再继续，不宣称在线真机交付完成。本摘要由 cobot_rlt 迁移会话写入，guide Git 不由该会话提交。
+来源：cobot_rlt迁移会话，2026-09-28；对应项目迁移记录、现场测试与Git核验。历史阶段细节以实际项目MIGRATION为准；本会话只维护guide摘要，不提交或推送guide Git。
 
-## 2026-09-28 接续进度
+2026-09-28补充：用户确认数据/checkpoint按用途单机单份保存；原始采集与当前部署归Cobot，训练中间/历史模型归A6000。存放盘点及路径/占用见实际cobot-web/docs/STORAGE.md，各领域实际入口已注明相关资产。当前仍有重复副本待收尾，场景目录尚未改名；本次未删除数据或权重。
 
-新Stage1实际加载、固定输入推理通过；正式8015已切换，固定5k/最新在线模型均ready且暂停。Cobot独立副本测试5000/2500→5005/2502，正式资产SHA不变；11,123数据文件约158GB完整校验，媒体可读。历史跨机归档仍在执行，原件保留。
 
-来源：对应项目docs/MIGRATION.md的实测记录。无真实Episode／运动测试；旧目录清理见后续回执。guide Git由原负责agent管理。
+## 2026-09-28 存储方案更新
+
+Cobot 数据与模型统一在 /media/agilex/Getea1/jiaan/data/ 和 /media/agilex/Getea1/jiaan/model/。数据按场景分、模型按项目/模型分；本轮不新增 A6000 权重备份。代码、安装环境、运行日志与 PID 留在 /home/agilex/jiaan/project/<项目>/。完整路径与批次状态见相邻 cobot-web/docs/STORAGE.md。
+当前批次正在复制/验证及切换。以上旧 /home/agilex/jiaan/data、项目内 models 路径属于迁移前状态；最终完成结论以所属项目 docs/MIGRATION.md 最新批次为准。Guide 本轮只更新记录，由其负责 agent 提交。
+
+## 2026-09-28 Getea1 迁移当前状态
+
+主体数据/权重已迁移到 /media/agilex/Getea1/jiaan/{data,model}，新路径网页历史及 RLT 加载验收后清理了主体旧副本。20:00 Getea1 USB 掉线，FluxVLA 环境/暂存副本的验收和清理未完成；网页已正常停止，迁移进程已退出。恢复识别后先核对文件系统和资产校验，再续迁移，不要直接开始在线训练。详细证据见实际 cobot-web/docs/STORAGE.md 和所属项目 docs/MIGRATION.md。来源：cobot_rlt 迁移会话；未新增 A6000 数据/权重备份，guide Git 不由本会话提交。
+
+## 2026-09-28 20:56：Getea1 存储迁移完成
+
+本批已完成复制、哈希与运行验收、切换和对应旧文件清理。Getea1/jiaan 只保留 data、model；旧系统盘数据/模型目录移除。数据按场景/用途/方法归类，位姿与动作回放归 data/motion；模型按项目/模型/场景/版本归类。代码/环境/日志/PID 留在 /home/agilex/jiaan/project/<项目>。
+
+USB 掉线重连后已完成已迁移资产的全量收据复核；尚不能据此认定硬件链路根因已消除。RLT 新路径暂停加载、在线状态恢复与历史媒体通过；FluxVLA 固定版本离线 baseline/prefix-RTC 通过；π0.5 两入口只做 dry-run。本批未启动真实 Episode 或机器人动作。
+
+完整路径、占用、各项验证边界及回执见实际 cobot-web/docs/STORAGE.md。证据位于 rl-platform/outputs/migrations/20260928-getea-storage/cobot/（Cobot 去掉末尾 cobot/）。同批源码与项目记录已按各自仓库发布；guide Git 保持由其他会话管理。

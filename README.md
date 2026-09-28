@@ -13,7 +13,7 @@ GitHub：[ajwwja777/agent-guide](https://github.com/ajwwja777/agent-guide)（公
 | MateBook | Codex 对话入口，指向 A6000 对应项目目录 | `D:\Code\jiaan_workspace` |
 | A6000 | 主代码、Git、项目文档、主要开发环境、数据处理、训练与离线／仿真评测 | `/data/LFT-W02_data/jiaan/jiaan/` |
 | HPC | 模型训练 | `/data/user/jhe724/jiaan/`（现有项目在 `research-workspace/` 下） |
-| Cobot 4090 | 硬件控制、现场数采、本地推理、网页和运行维护 | `/home/agilex/jiaan/`（目标根，逐批迁移） |
+| Cobot 4090 | 硬件控制、现场数采、本地推理、网页和运行维护 | `/home/agilex/jiaan/project/`（代码与环境）；`/media/agilex/Getea1/jiaan/{data,model}`（数据与权重） |
 
 ## 框架结构
 
@@ -42,7 +42,7 @@ jiaan/
 
 `agent-guide/projects/<项目名>/` 只保留一个 `README.md`，统一承接该项目的接管摘要，不再拆出 `PREPARATION.md` 等附加文档。详细记录放实际项目，需要时从摘要链接过去。来源：2026-09-28 用户确认；现有 EXPO-FT 附加文档由对应项目对话合并。
 
-其他机器的具体项目、数据和输出子目录由项目文档记录。Cobot 新根 `/home/agilex/jiaan/` 已确认；旧 `/media/agilex/Getea1/jiaan/`、`/home/agilex/cobot_magic/` 等仍有实际运行资产，只有对应迁移批次验收并切换后才更新实际使用位置。目标路径不等于已经部署。HPC 按当前任务授权使用。
+其他机器的具体项目、数据和输出子目录由项目文档记录。Cobot 五项目代码与环境已切入 `/home/agilex/jiaan/project/`，本批数据与权重迁入 `/media/agilex/Getea1/jiaan/{data,model}`；共享 ROS／厂商驱动及部分历史模型 runtime 仍按依赖登记保留。路径迁移完成不代表真机动作和全部模型验收完成。HPC 按当前任务授权使用。来源：2026-09-29 项目交付与存储迁移记录。
 
 以统一、可读、便于人工排查和溯源为原则，创建文件前先看已有结构，按用途归位。下面是按需采用的常见布局；已有项目沿用原结构并记清对应位置，无需为套用布局创建空目录。
 
@@ -69,15 +69,15 @@ A6000 保存主代码与项目记录，按需保留开发验证所需资产；HP
 2026-09-27 最初确认六个主要项目：`cobot-control`、`cobot-dagger`、`vla-platform`、`rl-platform`、`cobot-web`、`cobot-ops`。职责与进度见[项目索引](projects/README.md)。Franka、模型适配、RTC 及真机／仿真评测纳入 `vla-platform`；RLT、EXPO-FT 纳入 `rl-platform` 的统一入口，已有算法仓库和历史可独立保留。
 
 - 笔记本只保留对话入口；A6000 维护主代码和项目记录。Cobot 按实际需求部署现场组件，不复制不需要的训练环境、仿真资产或全部模型。
-- Cobot 根只规划 `project/` 与 `data/`；模型放所属项目的 `models/` 或配置明确引用的既有权重目录。运行日志、PID 和任务状态由实际负责项目管理；网页编排任务由 cobot-web 接管，现使用 `project/cobot-web/runtime/` 实体目录；旧 ops 目录已在核验、备份及切换后清理；训练实验产物归所属算法项目 `outputs/`。同一资产跨项目引用，避免重复复制。
+- Cobot 代码、环境、日志与 PID 放 `/home/agilex/jiaan/project/<项目>/`；全部现场数据/权重实体放 Getea1 的 `/media/agilex/Getea1/jiaan/{data,model}`（2026-09-28 用户最终确认）。运行日志、PID 和任务状态由实际负责项目管理；网页编排任务由 cobot-web 接管，现使用 `project/cobot-web/runtime/` 实体目录；旧 ops 目录已在核验、备份及切换后清理；训练实验产物归所属算法项目 `outputs/`。同一资产跨项目引用，避免重复复制。
 - 每个项目说明自己负责什么、依赖谁、提供什么接口，以及问题交给谁。遇到问题直接在对应项目收集机器／版本、命令、日志、复现条件和已检查项；跨领域时交给对应项目并回写验证结果，不增加独立 ops 对话层。交接通过项目记录，不假设独立聊天自动共享上下文。
 - 初始化按“目录 → Git commit/push → 核验并记录”执行。六个入口已发布；2026-09-27 用户指定跨项目迁移由当前已有 cobot_rlt 对话持续统筹，保留迁移细节。领域项目负责专业维护与按需交接，迁移结果写回所属项目和 guide。
-- Cobot 项目自有文件统一放在 `/home/agilex/jiaan/project/<项目>/`，采集和评测数据放在 `/home/agilex/jiaan/data/`；临时排障、恢复证据也归所属项目，不再在 `/home/agilex` 下另建散落工作目录。历史位置逐批处理，不因新目录建立就批量删除。
+- Cobot 项目自有文件统一放在 `/home/agilex/jiaan/project/<项目>/`，采集、评测、位姿和动作回放放在 `/media/agilex/Getea1/jiaan/data/`；临时排障、恢复证据也归所属项目，不再在 `/home/agilex` 下另建散落工作目录。历史位置逐批处理，不因新目录建立就批量删除。
 - 每次只迁移一个可验收范围：核对来源与依赖，复制并验证新位置，验收后切换，再清理对应旧文件。保留未提交修改、共享资产和可靠回退；大文件迁移前先核验容量。不得把目录建立、源码 clone 或首次 push 当作业务迁移验收。
 
 来源：2026-09-27 用户确认的项目归属、机器职责、目录与初始化顺序；各项目本次发布证据见索引。
 
-同日后续调整：用户取消独立 cobot-ops 维护项目，网页使用／启停／任务／故障文档和工具归 cobot-web，硬件／数据／算法问题直接回所属项目。当前主要领域为五个；ops runtime、uv、恢复证据和工具已归 cobot-web，三机 ops 本地目录验收后删除。Git 历史／校验备份保留；旧 cobot-platform 和模型／RLT 仍有依赖，不删除。详见 cobot-web 迁移记录。
+同日后续调整：用户取消独立 cobot-ops 维护项目，网页使用／启停／任务／故障文档和工具归 cobot-web，硬件／数据／算法问题直接回所属项目。当前主要领域为五个；ops runtime、uv、恢复证据和工具已归 cobot-web，三机 ops 本地目录验收后删除。Git 历史／校验备份保留；2026-09-28 后续已完成 cobot-platform／RLT 的归档、无旧路径运行验证和对应旧目录清理；当前硬件、网页、RLT 各归所属新项目；数据已在后续批次转入 Getea1/jiaan/data，权重归 Getea1/jiaan/model。共享 ROS/Piper/Astra／π0.5 及其他旧 VLA 资产仍按登记保留，不整棵删除共享工作区。详见各项目迁移记录。
 
 
 ## 对话接管范式
@@ -110,3 +110,30 @@ agent-guide 用简短描述积累实际工作中的经验、错误和改进方�
 来源：2026-09-28 用户明确的项目边界与工具归属。
 
 框架维护对话在 `agent-guide/` 开启。技能复用时携带整个目录，迁移环境后更新框架位置与机器职责；当前尚未安装到技能发现目录。
+
+## 2026-09-28 数据与 checkpoint 的单份归属
+
+用户在cobot_rlt会话确认“按用途分放，单份保存”：原始采集、现场评测和当前部署checkpoint归Cobot；训练中间checkpoint与停止部署的历史模型归A6000。同一资产不跨机器长期重复保存；代码/Git、文档与路径索引仍按既有机器分工同步。
+
+数据按场景组织，可供多个模型训练；in_the_pot、plug_insertion作为场景命名方向，模型/子集/预处理版本由manifest关联。具体项目MD注明实际机器和绝对路径。该段记录迁移前的盘点阶段；后续本批数据归类、Getea1 切换与旧副本清理已完成，范围和剩余依赖见下方 20:56 完成记录。
+
+当前实测路径、占用与剩余空间：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/STORAGE.md；原始盘点：rl-platform/outputs/storage/20260928-inventory/。范围为本会话涉及的A6000/Cobot资产，未访问HPC。Guide Git仍由框架维护对话处理。
+
+## 2026-09-28 20:00 Getea1 迁移中断记录（后续已恢复）
+
+主体数据/权重已迁移到 /media/agilex/Getea1/jiaan/{data,model}，新路径网页历史及 RLT 加载验收后清理了主体旧副本。20:00 Getea1 USB 掉线，FluxVLA 环境/暂存副本的验收和清理未完成；网页已正常停止，迁移进程已退出。恢复识别后先核对文件系统和资产校验，再续迁移，不要直接开始在线训练。详细证据见实际 cobot-web/docs/STORAGE.md 和所属项目 docs/MIGRATION.md。来源：cobot_rlt 迁移会话；未新增 A6000 数据/权重备份，guide Git 不由本会话提交。
+
+## 2026-09-28 20:56：Getea1 存储迁移完成
+
+本批已完成复制、哈希与运行验收、切换和对应旧文件清理。Getea1/jiaan 只保留 data、model；旧系统盘数据/模型目录移除。数据按场景/用途/方法归类，位姿与动作回放归 data/motion；模型按项目/模型/场景/版本归类。代码/环境/日志/PID 留在 /home/agilex/jiaan/project/<项目>。
+
+USB 掉线重连后已完成已迁移资产的全量收据复核；尚不能据此认定硬件链路根因已消除。RLT 新路径暂停加载、在线状态恢复与历史媒体通过；FluxVLA 固定版本离线 baseline/prefix-RTC 通过；π0.5 两入口只做 dry-run。本批未启动真实 Episode 或机器人动作。
+
+完整路径、占用、各项验证边界及回执见实际 cobot-web/docs/STORAGE.md。证据位于 rl-platform/outputs/migrations/20260928-getea-storage/cobot/（Cobot 去掉末尾 cobot/）。同批源码与项目记录已按各自仓库发布；guide Git 保持由其他会话管理。
+
+
+## 2026-09-29 项目核对
+
+框架维护对话已只读核对八个项目及 EXPO-FT 内嵌 OpenPI 的 HEAD 与远端分支一致，按实际项目记录更新[索引](projects/README.md)。五领域的职责拆分、环境恢复与部署验证已发布，真机动作、完整 Episode、真实在线更新及部分模型 GPU 验收仍待现场；EXPO-FT 两处依赖修改未提交、算法适配待完成；codex-notify v0.1.0 已发布，storage-cleanup 最新完成 R1–R3。
+
+现场结果依据 [跨项目交付](../projects/cobot-web/docs/HANDOFF_20260929.md)及各项目迁移记录，本次未重新连接 Cobot、启动服务、训练或清理资产。

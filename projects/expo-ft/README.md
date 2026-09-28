@@ -1,5 +1,11 @@
 # EXPO-FT × Cobot
 
+## 框架核对（2026-09-29）
+
+主仓库 main 与 OpenPI expo_ft 的 HEAD 均与各自远端一致，仍为下表版本。主仓库保留 `pyproject.toml`、`uv.lock` 两处依赖修正，未代为提交。最新跨项目交付仍将 EXPO-FT 标为待适配：环境与数据读取准备不等于 SFT/replay 适配或训练完成。下一步由算法项目确认 Cobot 数据与动作合同，再验证真实 batch 和专用归一化。
+
+来源：本次只读 Git 核验、已有基础准备记录及 [2026-09-29 跨项目交付](../../../projects/cobot-web/docs/HANDOFF_20260929.md)。历史资产路径可能随迁移变化，使用前核对实际位置；`PREPARATION.md` 合并仍由对应项目对话处理。
+
 实际项目：`/data/LFT-W02_data/jiaan/jiaan/projects/expo-ft/`。
 
 目标：忠实复现原始同步 EXPO-FT，后续用于 Cobot Plug 插入（右臂、三相机）。用户倾向把真机适配放在独立 Cobot 项目，具体接口边界待核对。
