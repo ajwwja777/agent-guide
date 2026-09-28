@@ -47,3 +47,13 @@
 证据：实际项目 outputs/verification/20260927-runtime-cleanup、outputs/migrations/20260927-ops-retirement；逐项清理与备份哈希见实际项目 docs/MIGRATION.md。其他项目本次仅修正 ops 归属文档，未迁移业务代码；源码分别已 push。
 
 最终发布：网页迁移记录与终端说明提交 d5fe47769604d894a85a1e7800d883b75944db82 已 push；Cobot 同步 285 文件并逐项核验。运行代码无需因本次文档更新再次重启。GitHub 历史仓库保留，本地旧 ops 目录已实际清理。
+
+## 2026-09-27 RLT／硬件新路径联动（待上线）
+
+A6000 已准备调用 cobot-control / rl-platform 的轻量入口、新模型／Replay／数据路径和进程识别；576 项后端回归通过，后续路径／输出相关 63 项通过。现场仍为 d5fe477，未同步这批路径变更。Cobot 在模型独立验证期间 SSH/ping 失联，原件保留，硬件重启和新配置切换待恢复连接后验证。用户已确认机械臂安全断电，可重启节点；无归位或运动授权测试。详见三个实际项目的 docs/MIGRATION.md，guide Git 交原负责 agent。
+
+## 2026-09-28 接续进度
+
+正式8015使用新control/rl-platform/数据根；共享模型加载释放、历史视频及首尾图通过。浏览器最近目录随注册前缀迁移，重复硬件代码移除。历史归档仍在执行；新终端流程见项目COMMAND_LINE/WEB_RECOVERY及RL RUNBOOK。
+
+来源：对应项目docs/MIGRATION.md的实测记录。无真实Episode／运动测试；旧目录清理见后续回执。guide Git由原负责agent管理。

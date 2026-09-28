@@ -20,7 +20,7 @@
 
 ## 执行前检查
 
-- 优先使用 `gh`。A6000 固定入口为 `/data/LFT-W02_data/jiaan/jiaan/projects/agent-tools/bin/gh`；长期工具存放在 agent-tools，scratch 只作下载与缓存。
+- 优先使用 `gh`。A6000 固定入口为 `/data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/bin/gh`；框架自有长期工具随 agent-guide 的 tools 目录维护，scratch 只作下载与缓存。
 - 用 `gh api user --jq .login` 核对账号。已有正确认证直接复用；缺少认证时用 GitHub CLI 的设备/浏览器登录流程，不让用户在聊天或仓库提供 token。
 - 提交身份默认使用上表的署名与邮箱，在目标仓库用 `git config --local user.name ajwwja777` 和 `git config --local user.email 139873756+ajwwja777@users.noreply.github.com` 设置；提交前核对生效身份。GitHub 登录账号仍为 `ajwwja777`。
 - 查看目标目录、仓库根和 origin。已有正确仓库与关联时直接复用，不重复初始化。

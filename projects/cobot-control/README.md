@@ -8,7 +8,7 @@
 - 迁移清单与验收条件：`/data/LFT-W02_data/jiaan/jiaan/projects/cobot-control/docs/MIGRATION.md`。
 - 笔记本：`D:\Code\jiaan_workspace\cobot-control\AGENTS.md`。
 - 仓库：[ajwwja777/cobot-control](https://github.com/ajwwja777/cobot-control)，独立仓库，分支 `main`。
-- Cobot 目标：`/home/agilex/jiaan/project/cobot-control`，本轮未部署或切换。
+- Cobot 目标：`/home/agilex/jiaan/project/cobot-control`，代码已同步，现场服务切换待验收。
 
 ## 已完成
 
@@ -21,3 +21,13 @@
 CAN、反馈、相机和归位问题由本项目负责；网页任务／PID 问题交 cobot-web，硬件服务和存储问题在实际负责项目排查；模型输出异常交 vla-platform。
 
 来源：本项目维护入口、迁移记录与本次 GitHub／Git 核验（2026-09-27）。初始化完成不代表业务已迁移。框架只保留接管摘要，具体证据与进度在实际项目内维护。
+
+## 2026-09-27 硬件代码提取
+
+源码 942d459a5d6c45a54a49ff86cedf46f6a3e4c6e6 已 push；Cobot 新项目 111 文件 SHA-256 同步核验，342 项硬件回归通过。控制实现、位姿和 ROS launch 归本项目，网页保留轻量转发。用户确认机械臂断电，可重启节点；但现场连接中断，尚未重启旧节点、尚未删除旧 cobot-platform 或网页兼容副本。接续按实际项目 docs/MIGRATION.md 核验，不把同步完成当硬件运行验收。
+
+## 2026-09-28 接续进度
+
+新项目六个臂／交接节点在auto-enable=false下启动正常；三相机640×480约29.9FPS。被动launch核验后停止，无归位或动作。网页重复硬件代码从Git及现场78文件移除；共享ROS/Piper/Astra/aloha依赖保留。上电示教待现场验收。
+
+来源：对应项目docs/MIGRATION.md的实测记录。无真实Episode／运动测试；旧目录清理见后续回执。guide Git由原负责agent管理。

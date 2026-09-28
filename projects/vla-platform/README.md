@@ -23,3 +23,9 @@
 来源：本项目维护入口、迁移记录与本次 GitHub／Git 核验（2026-09-27）。初始化完成不代表业务已迁移。框架只保留接管摘要，具体证据与进度在实际项目内维护。
 
 FluxVLA 来源：`https://github.com/FluxVLA/FluxVLA.git`，本次固定提交 `6c94e73139d51fca9650fa76265c468378020558`。clone 后推送到自有独立仓库，`fork=false`；没有使用 GitHub fork。
+
+## 2026-09-28 历史资产接管
+
+A6000本项目已承接旧cobot-platform归档：9,629个文件／链接条目、23.17GB，SHA与链接校验通过。DM0-5 step4000和Xiaomi DAgger step4000实体归models/history，索引configs/assets/legacy_cobot_models.json。内部归档链接按新布局重定位，实验provenance保留。
+
+仅资产归档和目录整理，未完成FluxVLA运行适配；当前网页两个π0.5共享部署目录另批迁移。源目录是否已删除以实际项目docs/MIGRATION.md和删除回执为准。guide Git不由迁移会话提交。
