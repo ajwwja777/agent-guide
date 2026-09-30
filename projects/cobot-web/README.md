@@ -1,5 +1,43 @@
 # Cobot 操作网页
 
+## 2026-09-30：项目对话入口与并行协作交接
+
+用户指定 cobot-web 对话负责本领域，允许多个专题及 fork 并行。笔记本 D:\Code\jiaan_workspace\cobot-web\AGENTS.md 指向本项目；职责、当前问题、worktree/任务范围登记与现场单一负责人约定见 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/AGENTS.md。对话不共享实时上下文，接管重查 Git 和现场，不沿用历史 PID/版本。
+正式 8015 已在新项目。2026-09-30 增加根因、Stage1 保留状态、针对性收尾恢复与常驻 RLT 通用重启；实际活动录制收尾并保留模型重建通过。
+来源：cobot_rlt 本次用户指示及实际代码/记录核对；仅追加项目事实，guide Git 不提交/推送。
+
+
+2026-09-30 实际稳定性修复验收：rl3902fa8/web6b84116 已push、13文件SHA同步。
+暂停/HIL旧时钟误报已修复，录制HTTP移出RTC推理预算；web新增收尾未标注录制和通用保留模型重启。
+现场活动writer的48帧测试文件提交、writer占用释放、runtime重建ready/disarmed，Stage1 PID233064/start_ticks20025113保留，7个采样硬件身份不变。
+Replay3917/Learner7000/Actor3500未变，未执行推理/运动；50Hz连续真机与插入成功率仍待验收。
+回执：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/outputs/pause-recovery-20260930/；
+Cobot对应 /home/agilex/jiaan/project/cobot-web/runtime/verification/pause-recovery-20260930/。
+具体恢复按钮、CLI和限制见web docs/WEB_RECOVERY.md与RL docs/RUNBOOK.md；guide Git不提交。
+
+## 2026-09-29 示教显示防闪烁（最新）
+
+用户复测确认进入示教不再闪黄，移动偶发黄色、退出瞬间仍闪黄。control ace3b1f / web fdd6cdc已push并同步Cobot146/197文件：共用只读显示改为普通偏差持续2秒≥0.25rad才告警、<0.15rad稳定0.5秒恢复，软信号确认1秒；原1秒接管保留。已确认示教退出最多1.5秒绿色“正在退出示教”，允许按钮/CAN残留/逐步失能先后到达，超时仍告警且不反复延长。前臂本体示教、明确硬件/CAN/ROS/控制通路故障及≥0.50rad偏差仍立即提示；不改真实控制、动作、HIL或安全参数。
+
+100项设备/任务/健康回归通过，覆盖移动滞后、退出消息顺序/卡住/重入/双侧独立与故障优先。空闲时只重载8015，臂PID1318293、相机PID1317979保持；正式API健康、五路TX队列空。未发机器人动作；本版实际连续移动/退出颜色仍待用户观察。规则与发布事实见实际项目docs/MIGRATION.md、control/docs/DEPLOYMENT.md；完整回执位于control/outputs/diagnostics/teach-release-20260929/release.json（A6000），现场对应control/runtime/diagnostics/teach-release-20260929/release.json。guide Git不提交。
+
+## 2026-09-29 中臂首次归位与示教排查（本轮最新）
+
+来源：cobot_rlt 会话实际源码、被动CAN/ROS诊断及用户授权的小幅动作。control 5247de8 / web 412f31a 已push并同步146/197文件；硬件语义保留。修正mode=2/teach=1示教解析、latched协调器状态和配对故障显示；新增只读TX队列停滞诊断。中臂home增加无故障且已使能standby的原位ROS初始化，不嵌入Recover，冷上电动作仍待验证。
+
+左右CAN曾在持续接收时TX停滞，队列各10帧并有gs_usb echo告警；用户确认现场条件后已受控恢复，队列清空。通过原home_front服务验证两前臂各0.01rad往返，返回误差<0.0005rad；未启动模型，正式位姿/控制参数未改。首次人工示教复测暴露latched状态误判，已修正并重载，第二次复测仍待用户操作；修正后3分钟只读观察均为空闲健康，网页与CLI五路TX状态一致，没有把这段空闲观察算作示教验收。完整过程与证据见所属项目docs/MIGRATION.md、control/outputs/diagnostics/teach-and-mid-20260929。guide Git不由本会话提交。
+
+## 页面布局更新（2026-09-29）
+
+训练、部署与操作台/采集的内容区顶部和左侧统一；切换类别回到中央内容区左上角。采集与部署现共用四框，默认左上保存位置、右上模型、左下数据/评估、右下控制；设置 → 编辑布局可拖动四框，两页各自保存排列，刷新恢复。模型详情在卡片内滚动，窄内容区按单列显示。
+
+A6000 主项目 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-web；a370e59d450f3964ad4500002fff9c4a9930b7ce 已提交 push 并核验 origin/main，Cobot /home/agilex/jiaan/project/cobot-web 同步 197 个运行文件 SHA 一致，6 个实际 HTTP 静态资源核验一致。前端回归 42 项通过；Chromium 验证四页顶部左侧、两页四框几何位置、真实拖放与刷新恢复，截图已查看。仅静态更新，未重启网页/硬件或加载模型；现场部署状态只读检查为 offline。详见项目 docs/MIGRATION.md 最新两节和 docs/COMMAND_LINE.md“采集与部署面板排列”。guide Git 不提交/推送。
+
+
+## 场景/模型选择更新（2026-09-29）
+
+采集与部署已共用左右场景/模型选择框，双向配对、空闲时同步选择，完整权重路径在下方；不可用选项统一置灰禁用。按实际登记task生成场景，新增同类模型不改网页。前端42项、相关后端28项通过，实际26条目录/11个可加载条目两API一致。59080f823b32f568147ddbc7cbb9904a4764fa30 已push，Cobot 196个运行文件SHA及5个HTTP资源核验一致；只同步静态资源，不重启网页或硬件，不加载模型。详情 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/MIGRATION.md 最新节，命令/使用说明 docs/COMMAND_LINE.md。guide Git不提交。
+
 ## 当前交接状态（2026-09-29）
 
 正式8015已切换五项目共用实现；统一模型登记/CLI、目录历史独立模型、可调输出任务列表与日志整理已发布。后端607通过/6跳过、DOM39通过；后续小修44项通过。无模型warmup目录111条记录与JPEG读取通过。交付回执记录模型offline、采集idle、机械臂节点stopped、相机PID524014保持；handover_publisher_unavailable因此尚待硬件启动后验证。浏览器未连接，未做截图验收。
@@ -93,3 +131,133 @@ cobot-web 源码 b785ed9 已 push 并同步正式 8015，217 个运行文件 SHA
 ## 2026-09-29：硬件规则共用已切换
 
 来源：cobot_rlt 跨项目整理。control 7329949、web 43569ff 已 push，Cobot 分别 132/218 文件 SHA 一致。硬件探测与进程管理归 control/src/cobot_control；CLI scripts/control.py 使用 control/runtime/devices，与网页相同。67 项兼容测试、3 项真实无硬件进程组测试通过。空闲时只重启网页；相机 PID524014 保持，网页与 CLI 一致。详情见实际项目 docs/MIGRATION.md；control 新增 docs/DEPLOYMENT.md。五项目环境重建、统一模型接入及网页后续修复仍进行中。Guide Git 未提交。
+
+
+## 2026-09-29：模型选择与选臂位姿本批交付
+
+来源：cobot_rlt 对话本次用户要求及现场只读验收。采集/部署统一三段 Scene/Model/Steps 和四卡模板；英文模型选项、路径去底色、详情展开无内部滚动。位姿可选已有名/编辑新名并勾选记录臂，底部整行Recover、单夹爪操作。
+
+control 15c1917 / web fd8d182 已push、核对远端并同步Cobot，146/197文件SHA一致；404项Python与44项Node回归通过，浏览器1800/1200/760宽度布局检查通过。仅重载空闲8015；机械臂、相机、在线RLT进程PID与Session UUID保留，正式位姿数据不变，无动作验证。发布前已有RLT Session fault / recorder_not_ready，重载后仍保留，不能称为全流程已正常。详见实际项目docs/MIGRATION.md本批记录及cobot-web/outputs/model-pose-layout-20260929/release.json。Guide Git未提交/推送。
+
+
+## 2026-09-29：RLT录制保留模型恢复
+
+来源：cobot_rlt用户要求，不释放已加载模型。先用原Session stop清除无未决Episode的启动故障，保留PID1436537；web新增录制预检/恢复页面与同API CLI、具体503原因，fault可结束Session。dagger修复实时预检clock先取值后等待cache锁的竞态；未修改RL算法/HIL/mask或数据格式。旧503无细节，不能将全部历史错误归因该竞态。
+
+dagger dffc3f1 / web 8dd6983已push并同步，45/198文件SHA一致；254项Python通过、1项既有跳过，45项前端通过。模型保持暂停时连续3次12帧真实录制/放弃清理通过，无新增训练数据；最终模型ready、recorder idle、Session stopped，手动开始下一Session。Learner5090/Actor2545及模型、硬件PID保留。本轮未真实推理或运动，完整HIL仍需现场使用验收。
+
+具体代码/终端步骤/现场回执：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/WEB_RECOVERY.md、docs/MIGRATION.md、outputs/rlt-recorder-recovery-20260929/；采集领域细节见cobot-dagger/docs/MIGRATION.md。Guide只更新事实，不提交Git。
+
+## 2026-09-29：π0.5 Recover 暂停锁修复
+
+用户先正常部署in_the_pot DAgger、Recover双后臂后点击开始反复暂停。实测后臂正常失能、协调器policy且无fault；原因是web旧π0.5 wrapper将Recover保护暂停误当HIL。新分类只将实际协调器识别为HIL，Recover须由操作者开始/继续；旧版桥接检查实际paused回复，增加保持权重的暂停锁协调，并接入显式开始/继续，真实示教/故障仍拒绝恢复。
+
+web 3d05c63及后续 4be8602已push并同步Cobot198文件；63项回归通过/1跳过。现场repair-pause成功后保持手动暂停，GPU服务2019058/客户端2025877/硬件PID不变。用户随后自行开始eval-20260929T154302-897142dd，15:43只读确认running、paused=false；未由agent请求运动，未将本次状态通过当作整轮动作成功率验收。新wrapper下次正常加载生效，当前旧进程通过新bridge兼容，无需重新加载权重。
+
+完整恢复方式、边界与回执见 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/WEB_RECOVERY.md 和 docs/MIGRATION.md；Cobot对应 /home/agilex/jiaan/project/cobot-web/docs/。guide只更新事实，不提交/推送Git。
+
+本批最终web 9c5d3f9 已push并同步198文件，65项回归通过/1跳过；补齐Recover前HIL旧锁退休和所有π0.5开始/继续的policy/空fault检查。后续开始仅由用户显式操作触发；自动兼容路径已离线覆盖，未为测试请求真机动作。
+
+## 2026-09-29：历史未标注示范目录的 RLT 开始失败
+
+现场明确错误 Task5 latest episode labels are incomplete：demonstrations/legacy_test 有4条已完成未标注的人工示范，最后index16；旧规则阻塞且RLT的同身份orphan处理不能处理其他模型。dagger b4762c8 / web 96c74a9 已push并同步45/198文件SHA；统一flat目录允许未标注历史继续保留，legacy门禁不改，incomplete/损坏仍拒绝。恢复/检查按钮现核对同一目录完整性、显示路径及处理建议。93项Python与45项Node通过；Cobot新进程只读对照旧label_blocked=true、新false、nextindex17，未修改数据/标签。
+
+用户已切换online目录继续真实采集；本轮未由agent请求推理、暂停或停止。网页后端重载必须等待用户当前轮次结束，不能将源码已同步当成正式API已生效。模型supervisor2139119/Stage12139241保留；最终切换结果另记。详细记录与故障操作在所属项目docs/MIGRATION.md和web/docs/WEB_RECOVERY.md。Guide Git不提交。
+
+## 2026-09-29：RLT训练与发布显示纠正
+
+web 81114d1已push并同步199文件SHA一致。原选项6915/3457来自Learner内部，而真正发布快照为6500/3250，Session最近episode14实际使用3250。现在分别展示训练、发布、实际推理版本，选项以真实发布快照为准；只读解析512字节标量头，不执行pickle或加载模型。24项Python通过/1既有跳过、46项Node通过；不改500步发布/训练逻辑。正式后端与上个录制修复一起等待用户结束连续采集后的重载窗口，不把同步当生效。详情见实际项目docs/MIGRATION.md、docs/COMMAND_LINE.md；guide Git不提交。
+
+
+## 2026-09-29：正式后端切换已完成
+
+用户反馈仍无published后，现场确认waiting_scene/policy_paused、无活动writer/操作，持模型操作锁仅重载8015。模型supervisor2139119、Stage12139241、机械臂1318293、相机1317979身份与Session UUID/generation119保持。正式API确认Learner6915/internal3457、published6500/3250、last inference3250；录制标签修复一并生效。未开始推理或释放模型。回执：Cobot /home/agilex/jiaan/project/cobot-web/runtime/verification/rlt-publication-20260929/release.json。guide Git未提交。
+
+## 2026-09-29：RLT训练与诊断分析页面
+
+来源：cobot_rlt用户要求新增分析板块、训练页整理对齐。web e775308已push并同步202文件，正式8015新增只读/api/analysis/rlt；训练保留进度/发布/参数/主要loss，核心分析归独立页面，历史Warmup图折叠保留。rl-platform 88b3e1c新增轻量聚合和离线Replay PCA/k-means，保留算法；该项目本批只同步3个新增分析文件，未覆盖另一对话的NVMe/probe现场改动。
+
+4项RL测试、24项web Python、47项Node通过；1800/1200/760宽度同左/上边界、无横向溢出、0 JS异常。真实快照3917条transition，前两轴解释31.50%，属于姿态/动作覆盖，不是视觉阶段或失败因果。正式API Learner11750、published11500/Actor5750；日志旧心跳标历史快照，未冒充训练仍运行。只在模型offline/录制idle/无writer时持锁重载网页，9个硬件进程身份保持，未运动或加载模型。
+
+说明：/data/LFT-W02_data/jiaan/jiaan/projects/rl-platform/docs/ANALYSIS.md；网页使用与记录：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/COMMAND_LINE.md、docs/MIGRATION.md。Cobot快照在 /home/agilex/jiaan/project/rl-platform/outputs/rlt/plug_v3_yyshadow/analysis/replay_projection.json，手动运行 envs/online/bin/python scripts/analyze_replay.py 重新生成。HTTP回执归web/runtime/verification/rlt-analysis-20260929/。Guide仅追加事实，不提交/推送Git。
+
+## 2026-09-29：诊断可视化、模型目录与操作响应交付
+
+来源：cobot_rlt代码、测试和8015现场只读检查；web120a3175 已push并同步。
+Analysis新增Replay/实际batch构成、14版本回看、12组采样实验、
+梯度/输入消融与6帧三相机遮挡；明确不是Attention或独立验证成功率。
+Training保留核心曲线。53项Python、50项Node回归通过；
+1800/1200/760无横向溢出、对齐；正式浏览器0JS异常，英文检查通过。
+
+明确选模型时按configs/model_directories.json或模型data_directories选择采集/评测目录，
+Warmup/Online分开；之后可手动改，活动轮次不切换，轮询不覆盖。
+设备操作立即显示核对/待接收，输出跟随任务，CAN堵塞/排空提供提示。
+在model offline、capture/recorder idle、无writer时持模型操作锁，仅重载web；
+7个匹配到的硬件进程身份保留，未运动、未重置CAN或启动模型。
+API一次采样analysis约0.229秒、devices约0.0064秒，不代表所有操作耗时承诺。
+
+复现/接入边界：实际项目docs/COMMAND_LINE.md、ARCHITECTURE.md、MIGRATION.md。
+证据：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/outputs/rlt-analysis-20260929/。
+训练通用选择器仍为后续扩展，未声称任意模型一键训练。Guide Git不提交/推送。
+
+## 2026-09-30: RL action diagnostics and candidate selection
+
+Source: cobot_rlt dialogue. Analysis now shows 21 credit/sampling comparisons and per-joint Reference/Actor/executed curves; details collapse for readability. Project registration exposes a distinct MC30 candidate, with its own live telemetry/publication paths, through the existing paused-load workflow. Original online remains selectable. Web owns no MC/RTC algorithm. Tests: 51 Node checks and 22 selected Python checks pass (one skip); read-only responsive preview has no JS errors. Full paths/use/limits in actual cobot-web/docs/COMMAND_LINE.md and rl-platform/docs/EXPERIMENTS_20260930.md. Robot success and integrated RTC remain pending. Project code pushed; guide Git not submitted.
+
+Final release verification (2026-09-30): main/origin f145a800a52ce57ad364912e606075fedaf31e68; A6000 tree clean; selected Cobot files SHA256 match. Formal 8015 read-only verification passed; no robot motion. Guide Git not committed by this dialogue.
+
+## 2026-09-30: RTC field timeout and retained-Stage1 recovery
+
+Actual19:50:31 MC30 async_rtc50 EnvDriver failed because queue delay exceeded its
+200 ms budget; final supervisor traceback was a consequence. Old inference
+latency omitted recorder checks, so full contention cause is not established.
+RL now records actual/allowed delay and inference/recorder timing; bounds and
+algorithm settings unchanged. Web collection/deployment display root cause,
+Stage1 retention and explicit status/output/runtime recovery controls.
+
+Recovery verifies fully exited owned runtime and no pending writer/evaluation,
+uses original launcher and refuses implicit Stage1 reload. No automatic inference,
+home, label, data deletion or Replay commit. Completed orphan writer can permit
+UI shutdown only after local process-group verification. Source/docs release:
+rl-platform d4c798f, cobot-web4f5db63;18 Cobot hashes checked. Full backend709/6skip,
+DOM56, selected RL40, additional shutdown/CLI32 passed. Formal8015 updated with
+Stage1 PID233064 retained and14 hardware identities unchanged; recovery/start
+were not invoked. Live restart/RTC contention acceptance still pending.
+
+Usage: /data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/WEB_RECOVERY.md
+and /data/LFT-W02_data/jiaan/jiaan/projects/rl-platform/docs/RUNBOOK.md.
+Evidence: /data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/outputs/rtc-runtime-recovery-20260930/;
+Cobot /home/agilex/jiaan/project/cobot-web/runtime/verification/rtc-runtime-recovery-20260930/.
+Source: actual code/tests/live API and cobot_rlt dialogue. Guide Git untouched.
+
+Final record-only release 6c8aea5b412bf24d78fed6b4300eed2e076ece11 = origin/main; A6000 clean and all18 selected Cobot source/docs hashes verified. Guide Git not committed.
+
+Operator follow-up: retained recovery launched20:33:53, Stage1 still233064; at20:34:15 async_rtc50 then failed execution_clock_late. Recovery works, but50Hz field timing is not accepted. No recovery/start requested by agent. Evidence in web outputs/runtime rtc-runtime-recovery-20260930/operator-followup.json.
+
+2026-09-30 交接发布核验：cobot-web 3875e3811248e7de38cddfcdf6c1b97d48d7f96c = origin/main，A6000工作树干净；本批选中文档/源码已逐文件SHA同步Cobot。详细回执 projects/cobot-web/outputs/pause-recovery-20260930/handoff-release.json；guide Git未提交。
+
+2026-09-30：运行选项、录制暂存与历史补标签已交付。模型详情区分发布频率与逻辑／Replay 步频，支持 Hz／RTC／滤波选择；暂存结束当前 writer，保留文件与模型任务，完整未标注记录可补标签，不隐式提交 Replay。离线网页后端 725 passed／6 skipped、前端 62、采集 78、RL 79 通过；连续真机 50 Hz 和成功率仍未验收。
+
+最终发布回执：web e75d3cbb、dagger bb85a8a6、RL d878bded；网页 PID 866075、模型 offline、录制 idle、ROS readiness ok，采样进程身份保持，未启动模型／动作或改生产数据。此前两段已被写成问号，现依据实际项目 docs/MIGRATION.md 与 cobot-web/outputs/recording-defer-rate-20260930/final-release.json 核对后重写；详细过程仍归所属项目。
+
+## 2026-10-01：精简执行选项发布事实
+
+来源：cobot-web 本次任务。模型步数项去除 Hz，运行 Hz/RTC/滤波独立成一行；历史结果成功/失败/未知自动保存，保留原备注与训练许可，CAS 与丢响应查询确认。VLA 共用执行配置、物理时间发布/滤波及可选 chunk 执行已接入当前暂停适配器，RLT 复用配置合同。
+
+A6000 web af56ffc / VLA a9f87e0 / RL aee49de 已提交 push。Cobot web 209 个运行文件全 SHA 校验，VLA 16/RL 2 个本次文件校验；只重载 8015，新网页 PID 927182，模型 offline、录制 idle、无 writer/active lease。9 个采样硬件/模型进程身份保持。共用模块现场导入与 4 个 VLA 文件启动计划、两项 π0.5 dry-run 通过；未新加载 GPU、未真实 Episode/Replay 改写/动作，连续真机 Hz/效果待验收。
+
+离线前端 67，web 后端 87（另 1 skipped），RLT 21，共用 VLA 27，G05 15，XR1 26 项通过。回执：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/outputs/execution-compact-20261001/final-release.json；Cobot 对应 runtime/verification/execution-compact-20261001/final-release.json。guide Git 不由本对话提交或推送。
+
+## 2026-10-01：方法／步数、历史结果与 NVMe 路径现场事实
+
+来源：cobot-web 当前任务。原版／MC30 方法与纯数字步数独立，固定 5000 保留，新增在线分支读取真实已发布步数；所选 50 Hz 的详情与实际生效设置分开。历史标签接口与目录迁移一致，普通采集节点历史保留记录结果，成功／失败／未知可修改并同步同目录显示。Stage1 清单和实际 CPU preflight 恢复 NVMe /home/agilex/jiaan/data/rlt/plug_insertion/reference_4999；在线资产按原登记引用，未搬数据／权重。
+
+cobot-web 发布 562f8f83317617213ecac6c5e1a5ea367c876d81；三项目源码／记录 SHA 已核验，正式 8015 只重载网页 PID 970937。模型 offline、recorder idle、无活动 writer；9 个采样硬件／模型身份及固定 5000／历史标签 SHA 不变。离线前端 69、完整 web 734（6 skipped）、末次相关 60（1 skipped）、采集 78、RL 24 通过。8 条实际历史标签 GET 与目录 DOM 通过；未启动 GPU／训练／动作，真实在线分支与 50 Hz 连续运动、浏览器视觉仍待现场。详见实际项目 docs/MIGRATION.md 与 web outputs/catalog-results-20261001/final-release.json；guide Git 未提交或推送。
+
+## 2026-10-01：两行权重路径现场事实
+
+来源：cobot-web 用户本次要求。采集／部署共用模型选择器在选中时立即显示权重路径与 Base model 两行；Base model 从折叠详情移至路径处。69 项前端回归、实际目录 15 项 DOM 与正式 8015 静态响应 SHA 通过；发布 bdf2e0876364d944f7ae6ce3f24651c8f882631e，网页 PID 970937 保持，无网页／模型／硬件重启或动作。真实浏览器视觉未验收。详见项目 docs/MIGRATION.md 和 outputs/selected-paths-20261001/final-release.json；guide Git 未提交／推送。
+
+## 2026-10-01：选中即显示两行权重路径
+
+采集与部署共用选择器立即显示所选权重与 Base model 两行路径，清空选择同步清空旧值；无 base 时仅显示实际权重。web bdf2e087 已 push，静态运行文件与正式 HTTP 资源 SHA 核对一致。69 项前端回归及现场目录 15 个可选模型的 DOM 核验通过；网页 PID 970937 与采样硬件／模型身份保持，未重启网页、加载模型或发动作，真实浏览器视觉仍待验收。来源：实际 cobot-web/docs/MIGRATION.md 最新节与 outputs/selected-paths-20261001/。

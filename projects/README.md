@@ -6,11 +6,11 @@
 
 | 项目 | 职责 | 状态 |
 |---|---|---|
-| [cobot-control](cobot-control/README.md) | 硬件、独立前后双臂、CAN／ROS／相机、示教与归位。 | 共用硬件规则与独立CLI已发布；源码材料/配置/安装入口齐备；进程验收通过，驱动重建和动作待验收 |
-| [cobot-dagger](cobot-dagger/README.md) | 数采、HIL、mask 与 DAgger 迭代。 | 35个采集领域模块已迁入并现场切换；独立环境75项测试通过，真实HIL时序待现场 |
-| [vla-platform](vla-platform/README.md) | 基于 FluxVLA；模型、Franka／Cobot、RTC 与真机／仿真评测。 | 统一登记与历史薄适配已发布；Flux冻结环境独立恢复通过；新GPU/真机验收待完成 |
-| [rl-platform](rl-platform/README.md) | RLT、EXPO-FT 的统一实验入口，保留算法独立实现。 | 运行边界独立、冻结环境恢复、78项在线及35项Stage1契约通过；EXPO-FT待适配，真实在线更新待验收 |
-| [cobot-web](cobot-web/README.md) | 网页、API 编排、命令行使用、任务／状态、网页故障与恢复。 | 正式8015已同步；607项后端/39项DOM通过，无模型历史可读；视觉与真机全流程待现场 |
+| [cobot-control](cobot-control/README.md) | 硬件、独立前后双臂、CAN／ROS／相机、示教与归位。 | 共用 CAN／设备规则、示教显示与独立 CLI 已发布；TX 卡死根因、驱动重建及剩余动作验收待现场 |
+| [cobot-dagger](cobot-dagger/README.md) | 数采、HIL、mask 与 DAgger 迭代。 | 录制保留模型恢复、暂存与历史结果修复已发布；采集领域 78 项回归通过，真实 HIL 全流程待现场 |
+| [vla-platform](vla-platform/README.md) | 基于 FluxVLA；模型、Franka／Cobot、RTC 与真机／仿真评测。 | 共用 Hz／RTC／滤波配置与暂停适配器已接入；CPU／合成与 dry-run 通过，各模型连续真机待验收 |
+| [rl-platform](rl-platform/README.md) | RLT、EXPO-FT 的统一实验入口，保留算法独立实现。 | MC30 诊断、可选异步 RTC 与 NVMe Stage1 引用已发布；自主收益、在线分支及连续 50 Hz 待现场，EXPO-FT 待适配 |
+| [cobot-web](cobot-web/README.md) | 网页、API 编排、命令行使用、任务／状态、网页故障与恢复。 | 方法／步数、历史结果、所选执行参数与两行权重路径已发布；734 后端／69 前端回归通过，视觉和真机全流程待现场 |
 
 Franka、各模型、RTC、ZR-0／LiLaWAM 及仿真评测归入 vla-platform；RLT、EXPO-FT 归入 rl-platform。归属登记不表示旧代码或资产已完成迁移。每次只迁移一个可验收范围，验证后切换，再清理对应旧文件。
 
@@ -45,3 +45,24 @@ ops 不再有独立项目入口；本地目录已清理，历史 Git、备份和
 | expo-ft 内嵌 OpenPI | expo_ft | `46407a4` |
 
 EXPO-FT 的 `pyproject.toml`、`uv.lock` 仍有未提交修改；本次只发布 guide。其 `PREPARATION.md` 尚待对应项目对话按单 README 约定合并。
+
+## 2026-09-30 校园 VPN 排障
+
+- [campus-vpn](campus-vpn/README.md)：网关 Fake-IP 冲突、用户名格式及浏览器 HTTP 转发问题已定位并绕行；手机关闭校园 Wi-Fi 后，Cobot 网页与 SSH 经校园 VPN 验收通过。后续已统一校园域名与 10/8 分流，保留热点局域网直连，并加入“校园访问”选择组切换 DIRECT／校园代理；普通 A6000/Cobot SSH、Cobot 网页及 HPC SSH banner 验收通过，未登录 HPC。详见项目记录；本次未初始化 Git 或部署容器。来源：campus-vpn 项目对话。
+
+## 2026-10-01 框架复核
+
+依据各项目最新记录及已有发布回执更新上方摘要；本轮只读核对 A6000 Git 与 GitHub 分支，不复跑现场服务、训练或动作。下表为本次核对的版本，历史表保留当时状态。
+
+| 项目 | 本地与 GitHub main 一致的提交 |
+|---|---|
+| cobot-control | `64899d14` |
+| cobot-dagger | `127b3f34` |
+| cobot-web | `bdf2e087` |
+| vla-platform | `a9f87e0f` |
+| rl-platform | `bf111eb7` |
+| codex-notify | `52fe0b3b` |
+| storage-cleanup | `d786d0bc` |
+| expo-ft | `803381fc` |
+
+EXPO-FT 的两处依赖修改仍未提交，适配／训练待开展；PREPARATION.md 合并仍交对应项目对话。校园 VPN 记录纳入 guide；Monitor 与 Ctrl+Shift+V 图片粘贴的最新验证见 [工具说明](../tools/README.md)。三个项目摘要中的问号段落已按实际原文与 JSON 发布回执重写；实际项目文档的同类损坏仍由对应项目对话处理。

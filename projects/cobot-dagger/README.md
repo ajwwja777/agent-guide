@@ -1,5 +1,12 @@
 # Cobot 采集、HIL 与 DAgger
 
+## 2026-09-30：项目对话入口与并行协作交接
+
+用户指定 cobot-dagger 对话负责本领域，允许多个专题及 fork 并行。笔记本 D:\Code\jiaan_workspace\cobot-dagger\AGENTS.md 指向本项目；职责、当前问题、worktree/任务范围登记与现场单一负责人约定见 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-dagger/AGENTS.md。对话不共享实时上下文，接管重查 Git 和现场，不沿用历史 PID/版本。
+采集领域已从 web 迁入；web 只留 HTTP 与兼容入口。完整未标注历史不阻塞新轮次；incomplete/损坏文件仍需处理。模型退出后 writer 应仍能诊断/收尾。
+来源：cobot_rlt 本次用户指示及实际代码/记录核对；仅追加项目事实，guide Git 不提交/推送。
+
+
 ## 当前交接状态（2026-09-29）
 
 35个采集、HIL、mask与数据领域模块已从web归入 src/capture_core、src/segmented_capture；web保留API与兼容导入。独立uv环境75项测试通过，现场调用新库；清理SHA匹配旧文件后111条RLT历史和JPEG仍可读。数据格式和控制语义未改，真实HIL时序待现场。
@@ -53,3 +60,35 @@ Cobot 数据与模型统一在 /media/agilex/Getea1/jiaan/data/ 和 /media/agile
 USB 掉线重连后已完成已迁移资产的全量收据复核；尚不能据此认定硬件链路根因已消除。RLT 新路径暂停加载、在线状态恢复与历史媒体通过；FluxVLA 固定版本离线 baseline/prefix-RTC 通过；π0.5 两入口只做 dry-run。本批未启动真实 Episode 或机器人动作。
 
 完整路径、占用、各项验证边界及回执见实际 cobot-web/docs/STORAGE.md。证据位于 rl-platform/outputs/migrations/20260928-getea-storage/cobot/（Cobot 去掉末尾 cobot/）。同批源码与项目记录已按各自仓库发布；guide Git 保持由其他会话管理。
+
+
+## 2026-09-29：RLT录制保留模型恢复
+
+来源：cobot_rlt用户要求，不释放已加载模型。先用原Session stop清除无未决Episode的启动故障，保留PID1436537；web新增录制预检/恢复页面与同API CLI、具体503原因，fault可结束Session。dagger修复实时预检clock先取值后等待cache锁的竞态；未修改RL算法/HIL/mask或数据格式。旧503无细节，不能将全部历史错误归因该竞态。
+
+dagger dffc3f1 / web 8dd6983已push并同步，45/198文件SHA一致；254项Python通过、1项既有跳过，45项前端通过。模型保持暂停时连续3次12帧真实录制/放弃清理通过，无新增训练数据；最终模型ready、recorder idle、Session stopped，手动开始下一Session。Learner5090/Actor2545及模型、硬件PID保留。本轮未真实推理或运动，完整HIL仍需现场使用验收。
+
+具体代码/终端步骤/现场回执：/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/docs/WEB_RECOVERY.md、docs/MIGRATION.md、outputs/rlt-recorder-recovery-20260929/；采集领域细节见cobot-dagger/docs/MIGRATION.md。Guide只更新事实，不提交Git。
+
+## 2026-09-29：历史未标注示范目录的 RLT 开始失败
+
+现场明确错误 Task5 latest episode labels are incomplete：demonstrations/legacy_test 有4条已完成未标注的人工示范，最后index16；旧规则阻塞且RLT的同身份orphan处理不能处理其他模型。dagger b4762c8 / web 96c74a9 已push并同步45/198文件SHA；统一flat目录允许未标注历史继续保留，legacy门禁不改，incomplete/损坏仍拒绝。恢复/检查按钮现核对同一目录完整性、显示路径及处理建议。93项Python与45项Node通过；Cobot新进程只读对照旧label_blocked=true、新false、nextindex17，未修改数据/标签。
+
+用户已切换online目录继续真实采集；本轮未由agent请求推理、暂停或停止。网页后端重载必须等待用户当前轮次结束，不能将源码已同步当成正式API已生效。模型supervisor2139119/Stage12139241保留；最终切换结果另记。详细记录与故障操作在所属项目docs/MIGRATION.md和web/docs/WEB_RECOVERY.md。Guide Git不提交。
+
+
+## 2026-09-29：正式后端切换已完成
+
+用户反馈仍无published后，现场确认waiting_scene/policy_paused、无活动writer/操作，持模型操作锁仅重载8015。模型supervisor2139119、Stage12139241、机械臂1318293、相机1317979身份与Session UUID/generation119保持。正式API确认Learner6915/internal3457、published6500/3250、last inference3250；录制标签修复一并生效。未开始推理或释放模型。回执：Cobot /home/agilex/jiaan/project/cobot-web/runtime/verification/rlt-publication-20260929/release.json。guide Git未提交。
+
+2026-09-30 交接发布核验：cobot-dagger b4819d832bdaf4f376139daa78e0985fe0ebaf1f = origin/main，A6000工作树干净；本批选中文档/源码已逐文件SHA同步Cobot。详细回执 projects/cobot-web/outputs/pause-recovery-20260930/handoff-release.json；guide Git未提交。
+
+2026-09-30：运行选项、录制暂存与历史补标签已交付。模型详情区分发布频率与逻辑／Replay 步频，支持 Hz／RTC／滤波选择；暂存结束当前 writer，保留文件与模型任务，完整未标注记录可补标签，不隐式提交 Replay。离线网页后端 725 passed／6 skipped、前端 62、采集 78、RL 79 通过；连续真机 50 Hz 和成功率仍未验收。
+
+最终发布回执：web e75d3cbb、dagger bb85a8a6、RL d878bded；网页 PID 866075、模型 offline、录制 idle、ROS readiness ok，采样进程身份保持，未启动模型／动作或改生产数据。此前两段已被写成问号，现依据实际项目 docs/MIGRATION.md 与 cobot-web/outputs/recording-defer-rate-20260930/final-release.json 核对后重写；详细过程仍归所属项目。
+
+## 2026-10-01：方法／步数、历史结果与 NVMe 路径现场事实
+
+来源：cobot-web 当前任务。原版／MC30 方法与纯数字步数独立，固定 5000 保留，新增在线分支读取真实已发布步数；所选 50 Hz 的详情与实际生效设置分开。历史标签接口与目录迁移一致，普通采集节点历史保留记录结果，成功／失败／未知可修改并同步同目录显示。Stage1 清单和实际 CPU preflight 恢复 NVMe /home/agilex/jiaan/data/rlt/plug_insertion/reference_4999；在线资产按原登记引用，未搬数据／权重。
+
+cobot-dagger 发布 127b3f349cbedc61ef61792800e62049f9e9e236；三项目源码／记录 SHA 已核验，正式 8015 只重载网页 PID 970937。模型 offline、recorder idle、无活动 writer；9 个采样硬件／模型身份及固定 5000／历史标签 SHA 不变。离线前端 69、完整 web 734（6 skipped）、末次相关 60（1 skipped）、采集 78、RL 24 通过。8 条实际历史标签 GET 与目录 DOM 通过；未启动 GPU／训练／动作，真实在线分支与 50 Hz 连续运动、浏览器视觉仍待现场。详见实际项目 docs/MIGRATION.md 与 web outputs/catalog-results-20261001/final-release.json；guide Git 未提交或推送。
