@@ -33,4 +33,10 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 
 实体目录：`D:\Downloads\VSCodeExtensions\cyuneo.cyuneo-agent-monitor-0.7.0`（约 2.12 MB）。默认扩展位置 `C:\Users\wja\.vscode\extensions\cyuneo.cyuneo-agent-monitor-0.7.0` 是指向该目录的 Windows Junction；其他扩展目录沿用原位置。已核验文件哈希与 VS Code CLI 的版本识别；未重载现有窗口，面板加载需在 VS Code 中确认，未出现时保存工作后执行“Developer: Reload Window”。扩展升级可能新建版本目录，届时核对实际位置。
 
-保持默认本地读取：Codex 监控开启，网络访问与手机推送关闭；现有手机完成通知仍由 codex-notify 承接。来源：[Marketplace](https://marketplace.visualstudio.com/items?itemName=CYUNEO.cyuneo-agent-monitor)、本次 CLI 安装与路径核验。
+安装时保留默认本地读取：Codex 监控开启，网络访问与手机推送关闭；后续通知设置以笔记本实际配置为准。来源：[Marketplace](https://marketplace.visualstudio.com/items?itemName=CYUNEO.cyuneo-agent-monitor)、本次 CLI 安装与路径核验。
+
+2026-10-01 按用户指定固定显示九个对话：cobot_rlt、vla-platform、cobot-control、cobot-dagger、rl-platform-部署现场、rl-platform-修改、agent-guide、rl-platform-思路、cobot-web。cobot_rlt 对应用户确认的“rl-总-旧”；按会话 ID 匹配，显示名称只作面板别名，不修改 Codex 对话名称或历史。后续由用户指定新增，闲置时仍显示。
+
+名单：`D:\Downloads\VSCodeExtensions\AgentMonitorConfig\watched-sessions.json`。0.7.0 不原生支持固定名单，采用本地补丁：修改扩展 `lib/monitor.js`，增加 `lib/watched-sessions.js`；原文件与 SHA-256 保存在同级 `AgentMonitorConfig/backups/0.7.0/`。可维护的应用脚本：[agent-monitor-patch.py](agent-monitor-patch.py)，笔记本运行副本在 `AgentMonitorConfig/apply-patch.py`，遇到版本不符停止。扩展升级后需核对补丁；本次未更改用户后续配置的通知设置。
+
+只读使用真实会话验证：配置 9 个、扫描返回 9 个，无缺项、无额外会话、无扫描错误；模拟一年后仍返回同一名单。已保存补丁，现有窗口重载后加载；名单文件的后续修改由补丁读取，无需再修改扩展代码。来源：本次用户名单、cobot_rlt 选择确认与扫描结果。
