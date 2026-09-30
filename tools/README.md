@@ -47,7 +47,7 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 
 2026-10-01 后续显示范围：笔记本 `agentMonitor.activeWindowMinutes` 改为 1440，补丁保留固定名单，并允许其他 Codex 对话在最近 24 小时内显示。经 C 盘入口验证当前为固定 9 个加校园 VPN，共 10 个，无缺项与超时额外项；模拟时间推进后仍保留固定 9 个。00:39 用户重新加载当前 jiaan_workspace 窗口后，共享扫描宿主切换为 PID 42780；实际快照返回 10 个，其中固定 9 个、当天校园 VPN 1 个，固定名单无缺项、显示别名全部匹配，实际时间窗口为 1440 分钟。补丁已在运行中窗口加载，本次排障完成；固定名单不受时间窗口限制的逻辑另已通过时间推进验证。
 
-2026-10-01 用户完成临时关闭测试后要求重新开启，并将底部显示简化为运行数量。已恢复监控来源，沿用固定九个与最近 24 小时的名单；新增本地显示补丁：运行时只显示“运行中 N”，数量归零自动隐藏，不计已完成未查看状态，不显示未读角标；本地提醒、声音与推送仍关闭。笔记本应用脚本：`D:\Downloads\VSCodeExtensions\AgentMonitorConfig\apply-running-status.py`；维护源码：[agent-monitor-running-status.py](agent-monitor-running-status.py)，修改前备份在同级 `backups/0.7.0-running-status/`。语法核验与状态转换测试通过（两个运行加一个完成显示 2，全部完成且未查看自动隐藏）；实际扫描已恢复为 11 个对话。显示补丁需重启扩展宿主后加载，当前尚未验证实际底部显示。来源：本次用户要求、本机扫描与显示逻辑测试。
+2026-10-01 用户完成临时关闭测试后要求重新开启，并将底部显示简化为运行数量。已恢复监控来源，沿用固定九个与最近 24 小时的名单；新增本地显示补丁：运行时只显示“运行中 N”，数量归零自动隐藏，不计已完成未查看状态，不显示未读角标；本地提醒、声音与推送仍关闭。笔记本应用脚本：`D:\Downloads\VSCodeExtensions\AgentMonitorConfig\apply-running-status.py`；维护源码：[agent-monitor-running-status.py](agent-monitor-running-status.py)，修改前备份在同级 `backups/0.7.0-running-status/`。语法核验与状态转换测试通过（两个运行加一个完成显示 2，全部完成且未查看自动隐藏）；实际扫描已恢复为 11 个对话。用户第一次执行 Restart Extension Host 后实际宿主仍是 00:39 启动的 PID 42780，未加载新代码；改为 Developer: Reload Window 后，01:31 日志确认旧宿主退出、新宿主 PID 27464 启动并激活 Monitor。重载后的真实快照为 1 个运行（agent-guide）、6 个完成未查看、4 个闲置；通过 C 盘扩展入口使用该快照核验，新显示仅为“运行中 1”，完成未查看不计入，全部完成自动隐藏的状态转换测试已通过。运行中的本对话结束后应随扫描刷新隐藏；该最终 UI 隐藏尚未直接观察。经验：以宿主 PID 和启动日志核对重载是否实际发生。来源：本次用户要求、本机扫描与显示逻辑测试。
 
 ## 笔记本 Codex CLI 按键排障
 
