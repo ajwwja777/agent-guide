@@ -26,3 +26,11 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 ```
 
 脚本仅为当前终端及其子进程设置 Git 向上查找边界，保留已有边界设置；重复执行不会重复追加。不修改主目录配置或任何仓库，不移除外层历史。根目录和 projects 容器不再显示外层分支，各项目独立 Git 正常。新开终端需要重新执行；脚本不在其他进程中自动生效。
+
+## 笔记本 Agent Monitor
+
+2026-09-30 安装 `CYUNEO.cyuneo-agent-monitor` 0.7.0（VS Code Marketplace）。用于在底部 Agent Monitor 面板查看本机 Codex 等对话的运行、完成与等待状态；状态不代表任务结果已经验收。
+
+实体目录：`D:\Downloads\VSCodeExtensions\cyuneo.cyuneo-agent-monitor-0.7.0`（约 2.12 MB）。默认扩展位置 `C:\Users\wja\.vscode\extensions\cyuneo.cyuneo-agent-monitor-0.7.0` 是指向该目录的 Windows Junction；其他扩展目录沿用原位置。已核验文件哈希与 VS Code CLI 的版本识别；未重载现有窗口，面板加载需在 VS Code 中确认，未出现时保存工作后执行“Developer: Reload Window”。扩展升级可能新建版本目录，届时核对实际位置。
+
+保持默认本地读取：Codex 监控开启，网络访问与手机推送关闭；现有手机完成通知仍由 codex-notify 承接。来源：[Marketplace](https://marketplace.visualstudio.com/items?itemName=CYUNEO.cyuneo-agent-monitor)、本次 CLI 安装与路径核验。

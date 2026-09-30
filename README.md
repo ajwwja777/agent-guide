@@ -15,6 +15,8 @@ GitHub：[ajwwja777/agent-guide](https://github.com/ajwwja777/agent-guide)（公
 | HPC | 模型训练 | `/data/user/jhe724/jiaan/`（现有项目在 `research-workspace/` 下） |
 | Cobot 4090 | 硬件控制、现场数采、本地推理、网页和运行维护 | `/home/agilex/jiaan/project/`（代码与环境）；`/media/agilex/Getea1/jiaan/{data,model}`（数据与权重） |
 
+笔记本安装软件时，支持选择安装位置的优先放在 `D:\Downloads\<软件名>\`，每个软件使用清晰的独立目录；安装包与临时缓存按用途归位，记录实际安装位置。无法单独修改安装路径时说明实际位置，升级后核对路径。来源：2026-09-30 用户确认，后续安装沿用。
+
 ## 框架结构
 
 ```text
