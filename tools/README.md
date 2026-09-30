@@ -49,6 +49,10 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 
 2026-10-01 用户完成临时关闭测试后要求重新开启，并将底部显示简化为运行数量。已恢复监控来源，沿用固定九个与最近 24 小时的名单；新增本地显示补丁：运行时只显示“运行中 N”，数量归零自动隐藏，不计已完成未查看状态，不显示未读角标；本地提醒、声音与推送仍关闭。笔记本应用脚本：`D:\Downloads\VSCodeExtensions\AgentMonitorConfig\apply-running-status.py`；维护源码：[agent-monitor-running-status.py](agent-monitor-running-status.py)，修改前备份在同级 `backups/0.7.0-running-status/`。语法核验与状态转换测试通过（两个运行加一个完成显示 2，全部完成且未查看自动隐藏）；实际扫描已恢复为 11 个对话。用户第一次执行 Restart Extension Host 后实际宿主仍是 00:39 启动的 PID 42780，未加载新代码；改为 Developer: Reload Window 后，01:31 日志确认旧宿主退出、新宿主 PID 27464 启动并激活 Monitor。重载后的真实快照为 1 个运行（agent-guide）、6 个完成未查看、4 个闲置；通过 C 盘扩展入口使用该快照核验，新显示仅为“运行中 1”，完成未查看不计入，全部完成自动隐藏的状态转换测试已通过。运行中的本对话结束后应随扫描刷新隐藏；该最终 UI 隐藏尚未直接观察。经验：以宿主 PID 和启动日志核对重载是否实际发生。来源：本次用户要求、本机扫描与显示逻辑测试。
 
+## 笔记本 Codex CLI 图片粘贴
+
+2026-10-01 本机 Codex CLI 0.159.2 在 VS Code 终端中 Ctrl+V 粘贴截图无反应；剪贴板有微信截图的 DIB 与 PNG 数据，CLI 本身支持图片输入，VS Code 的默认 Ctrl+V 由终端粘贴功能处理。已在 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 添加终端专用转发，将图片粘贴按键交给 Codex。用户用 Ctrl+Alt+V 成功发送终端列表截图，随后按用户习惯改为 **Ctrl+Shift+V**，原 Ctrl+Alt+V 自定义规则移除；普通 Ctrl+V 沿用 VS Code 默认粘贴。映射仅在 Windows 终端焦点下发送 Win32 Ctrl+V 按下／松开事件：`\u001b[86;47;22;1;8;1_\u001b[86;47;22;0;8;1_`。换键前备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-image-paste-shift-20261001-014308.json`。成功接收图片已经实测；换为 Ctrl+Shift+V 后按键匹配与序列已核验，实际换键操作待用户使用确认。来源：用户截图、本机版本及配置核验、[官方图片输入说明](https://learn.chatgpt.com/docs/image-inputs)。
+
 ## 笔记本 Codex CLI 按键排障
 
 2026-10-01 用户报告 `/model` 等选择菜单中 Esc 无法取消。CLI 为 0.159.2；核对发现 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 将终端 Esc 通过 `sendSequence` 改发 `\u0018`（Ctrl+X），Codex 的 `tui.keymap.chat.interrupt_turn` 同时支持 Esc 与 Ctrl+X，但菜单取消需要真正的 Esc。
