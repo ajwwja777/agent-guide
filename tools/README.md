@@ -55,8 +55,8 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 
 ## 笔记本 Codex CLI 按键排障
 
-2026-10-01 用户报告 `/model` 等选择菜单中 Esc 无法取消。CLI 为 0.159.2；核对发现 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 将终端 Esc 通过 `sendSequence` 改发 `\u0018`（Ctrl+X），Codex 的 `tui.keymap.chat.interrupt_turn` 同时支持 Esc 与 Ctrl+X，但菜单取消需要真正的 Esc。
+2026-10-01，Codex CLI 0.159.2 在部分 VS Code 终端中 Esc 无法关闭 `/model` 或中断任务，还会吞掉后一次 Enter；其他终端正常。之前将 Esc 改发 Ctrl+X、改发普通 `\u001b`、移除自定义映射及在原终端重启 Codex，都未完整解决；换新终端曾恢复，但之后再次复发。按键日志未发现 VS Code 快捷键拦截，五个运行中 CLI 的 Windows 控制台输入模式均为 `0x98`，不是这些模式位的差异。
 
-第一次只将发送字符改为 `\u001b`，仅验证了配置字符，用户随后报告 Esc 连任务中断也无效，该次修复不完整。后续已移除终端 Esc 的自定义 `sendSequence` 拦截，恢复原生按键处理；Codex 的 `interrupt_turn = ["esc", "ctrl-x"]` 保留，其他按键规则未变。修改前备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-native-esc-20261001-010200.json`（首次备份同目录 `keybindings.before-esc-fix-20261001-005810.json`）。用户实际验证后报告：菜单取消和运行中断仍均无效，本次尚未修好；当前保持已移除 Esc 自定义拦截的状态，已请用户开启 VS Code 按键排障日志并在终端按 Esc，以定位事件是否被截获或转换异常。经验：菜单取消与任务中断都需实际验证，不能将配置字符核验或移除映射称为行为修复完成；不要为中断任务把 Esc 全局替换为 Ctrl+X。来源：本机配置、用户反馈与 [VS Code 终端按键说明](https://code.visualstudio.com/docs/terminal/advanced#custom-sequence-keyboard-shortcuts)。
+对照测试：将现有 Shift+Esc 改为发送完整 Win32 Esc 按下／松开事件，用户确认正常；随后单独 Esc 使用同一序列，用户再次确认“esc正常没问题了”。当前在 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 中，Esc（`terminalFocus && isWindows`）和 Shift+Esc 均发送 `\u001b[27;1;27;1;0;1_\u001b[27;1;27;0;0;1_`；日常使用 Esc，Shift+Esc 保留作备选。Shift+Enter 与 Ctrl+Shift+V 图片粘贴保持原配置；Codex 的 `interrupt_turn = ["esc", "ctrl-x"]` 保留。此次 Esc 修改前备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-native-esc-event-20261001-015822.json`。
 
-2026-10-01 后续用户对比：同一旧终端重启 Codex 后 Esc 仍失效，新建终端中菜单取消和任务中断均正常；旧终端还出现 Esc 后第一次 Enter 无响应。VS Code 按键日志记录 Escape 无匹配快捷键拦截。当前使用新终端恢复对话即可继续，异常范围已缩小到旧终端状态，但未确定底层根因；不再新增全局 Esc 映射。单独 Esc 无 VS Code 自定义映射，Shift+Esc 仍发 `\u001b`，Codex 仍保留 `interrupt_turn = ["esc", "ctrl-x"]`。来源：用户新旧终端实测与本机日志。
+经验：Esc 字符与完整按键事件在 Windows 终端传输中可能表现不同；先对比异常／正常终端并实际验证菜单取消、任务中断及后续输入，不能把配置字符核验或换终端当作持久修复。当前修复已获用户确认；为何只在部分终端出现仍未确定，后续升级需重新核对实际行为。来源：本机配置、只读控制台模式检查、用户对照反馈与 [Microsoft Win32 按键传输规范](https://github.com/microsoft/terminal/blob/main/doc/specs/%234999%20-%20Improved%20keyboard%20handling%20in%20Conpty.md)。
