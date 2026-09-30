@@ -47,8 +47,12 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 
 2026-10-01 后续显示范围：笔记本 `agentMonitor.activeWindowMinutes` 改为 1440，补丁保留固定名单，并允许其他 Codex 对话在最近 24 小时内显示。经 C 盘入口验证当前为固定 9 个加校园 VPN，共 10 个，无缺项与超时额外项；模拟时间推进后仍保留固定 9 个。00:39 用户重新加载当前 jiaan_workspace 窗口后，共享扫描宿主切换为 PID 42780；实际快照返回 10 个，其中固定 9 个、当天校园 VPN 1 个，固定名单无缺项、显示别名全部匹配，实际时间窗口为 1440 分钟。补丁已在运行中窗口加载，本次排障完成；固定名单不受时间窗口限制的逻辑另已通过时间推进验证。
 
+2026-10-01 用户完成临时关闭测试后要求重新开启，并将底部显示简化为运行数量。已恢复监控来源，沿用固定九个与最近 24 小时的名单；新增本地显示补丁：运行时只显示“运行中 N”，数量归零自动隐藏，不计已完成未查看状态，不显示未读角标；本地提醒、声音与推送仍关闭。笔记本应用脚本：`D:\Downloads\VSCodeExtensions\AgentMonitorConfig\apply-running-status.py`；维护源码：[agent-monitor-running-status.py](agent-monitor-running-status.py)，修改前备份在同级 `backups/0.7.0-running-status/`。语法核验与状态转换测试通过（两个运行加一个完成显示 2，全部完成且未查看自动隐藏）；实际扫描已恢复为 11 个对话。显示补丁需重启扩展宿主后加载，当前尚未验证实际底部显示。来源：本次用户要求、本机扫描与显示逻辑测试。
+
 ## 笔记本 Codex CLI 按键排障
 
 2026-10-01 用户报告 `/model` 等选择菜单中 Esc 无法取消。CLI 为 0.159.2；核对发现 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 将终端 Esc 通过 `sendSequence` 改发 `\u0018`（Ctrl+X），Codex 的 `tui.keymap.chat.interrupt_turn` 同时支持 Esc 与 Ctrl+X，但菜单取消需要真正的 Esc。
 
 第一次只将发送字符改为 `\u001b`，仅验证了配置字符，用户随后报告 Esc 连任务中断也无效，该次修复不完整。后续已移除终端 Esc 的自定义 `sendSequence` 拦截，恢复原生按键处理；Codex 的 `interrupt_turn = ["esc", "ctrl-x"]` 保留，其他按键规则未变。修改前备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-native-esc-20261001-010200.json`（首次备份同目录 `keybindings.before-esc-fix-20261001-005810.json`）。用户实际验证后报告：菜单取消和运行中断仍均无效，本次尚未修好；当前保持已移除 Esc 自定义拦截的状态，已请用户开启 VS Code 按键排障日志并在终端按 Esc，以定位事件是否被截获或转换异常。经验：菜单取消与任务中断都需实际验证，不能将配置字符核验或移除映射称为行为修复完成；不要为中断任务把 Esc 全局替换为 Ctrl+X。来源：本机配置、用户反馈与 [VS Code 终端按键说明](https://code.visualstudio.com/docs/terminal/advanced#custom-sequence-keyboard-shortcuts)。
+
+2026-10-01 后续用户对比：同一旧终端重启 Codex 后 Esc 仍失效，新建终端中菜单取消和任务中断均正常；旧终端还出现 Esc 后第一次 Enter 无响应。VS Code 按键日志记录 Escape 无匹配快捷键拦截。当前使用新终端恢复对话即可继续，异常范围已缩小到旧终端状态，但未确定底层根因；不再新增全局 Esc 映射。单独 Esc 无 VS Code 自定义映射，Shift+Esc 仍发 `\u001b`，Codex 仍保留 `interrupt_turn = ["esc", "ctrl-x"]`。来源：用户新旧终端实测与本机日志。
