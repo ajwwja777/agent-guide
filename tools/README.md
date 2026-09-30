@@ -46,3 +46,9 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 经 C 盘入口及 Node `--preserve-symlinks` 验证：固定名单与扫描均为 9 个，无缺项、额外项或扫描错误。当时实际共享快照仍为 1 个，扩展宿主加载了补丁前的扫描代码；后续已通过当前窗口重载完成实际验证，结果见下。应区分脚本验证与正在运行窗口的验证，不能仅凭脚本返回就认定面板已生效。
 
 2026-10-01 后续显示范围：笔记本 `agentMonitor.activeWindowMinutes` 改为 1440，补丁保留固定名单，并允许其他 Codex 对话在最近 24 小时内显示。经 C 盘入口验证当前为固定 9 个加校园 VPN，共 10 个，无缺项与超时额外项；模拟时间推进后仍保留固定 9 个。00:39 用户重新加载当前 jiaan_workspace 窗口后，共享扫描宿主切换为 PID 42780；实际快照返回 10 个，其中固定 9 个、当天校园 VPN 1 个，固定名单无缺项、显示别名全部匹配，实际时间窗口为 1440 分钟。补丁已在运行中窗口加载，本次排障完成；固定名单不受时间窗口限制的逻辑另已通过时间推进验证。
+
+## 笔记本 Codex CLI 按键排障
+
+2026-10-01 用户报告 `/model` 等选择菜单中 Esc 无法取消。CLI 为 0.159.2；核对发现 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 将终端 Esc 通过 `sendSequence` 改发 `\u0018`（Ctrl+X），Codex 的 `tui.keymap.chat.interrupt_turn` 同时支持 Esc 与 Ctrl+X，但菜单取消需要真正的 Esc。
+
+已只把该 Esc 规则恢复为 `\u001b`，核验解码字符为 27、其他按键未变；菜单实际按键效果待用户现场确认。原文件备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-esc-fix-20261001-005810.json`。经验：排查菜单按键先核对终端实际发送的字符，中断任务的替代键不能直接代替菜单取消键。来源：本机配置核对与 [VS Code 终端按键说明](https://code.visualstudio.com/docs/terminal/advanced#custom-sequence-keyboard-shortcuts)；未修改 Codex 模型或其他按键配置。
