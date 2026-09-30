@@ -35,7 +35,7 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 
 安装时保留默认本地读取：Codex 监控开启，网络访问与手机推送关闭；后续通知设置以笔记本实际配置为准。来源：[Marketplace](https://marketplace.visualstudio.com/items?itemName=CYUNEO.cyuneo-agent-monitor)、本次 CLI 安装与路径核验。
 
-2026-10-01 按用户指定固定显示九个对话：cobot_rlt、vla-platform、cobot-control、cobot-dagger、rl-platform-部署现场、rl-platform-修改、agent-guide、rl-platform-思路、cobot-web。cobot_rlt 对应用户确认的“rl-总-旧”；按会话 ID 匹配，显示名称只作面板别名，不修改 Codex 对话名称或历史。后续由用户指定新增，闲置时仍显示。
+2026-10-01 按用户指定固定显示九个对话：cobot_rlt、vla-platform、cobot-control、cobot-dagger、rl-platform-部署现场、rl-platform-修改、agent-guide、rl-platform-思路、cobot-web。cobot_rlt 对应用户确认的“rl-总-旧”；按会话 ID 匹配，显示名称只作面板别名，不修改 Codex 对话名称或历史。固定名单后续由用户指定新增，闲置时仍显示；2026-10-01 用户追加：同时显示最近 24 小时活跃过的其他 Codex 对话。
 
 名单：`D:\Downloads\VSCodeExtensions\AgentMonitorConfig\watched-sessions.json`。0.7.0 不原生支持固定名单，采用本地补丁：修改扩展 `lib/monitor.js`，增加 `lib/watched-sessions.js`；原文件与 SHA-256 保存在同级 `AgentMonitorConfig/backups/0.7.0/`。可维护的应用脚本：[agent-monitor-patch.py](agent-monitor-patch.py)，笔记本运行副本在 `AgentMonitorConfig/apply-patch.py`，遇到版本不符停止。扩展升级后需核对补丁；本次未更改用户后续配置的通知设置。
 
@@ -44,3 +44,5 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 2026-10-01 后续排障：用户报告面板仍只有 agent-guide。已复现 C 盘 Junction 加载路径导致名单相对路径查找错误；之前直接从 D 盘验证遗漏了该情况。辅助模块与应用脚本改用 `fs.realpathSync(__dirname)` 解析实体路径；同时在 `C:\Users\wja\.vscode\extensions\AgentMonitorConfig` 建立指向 D 盘同名配置目录的 Junction，兼容已载入的旧路径，未复制名单或历史到 C 盘。
 
 经 C 盘入口及 Node `--preserve-symlinks` 验证：固定名单与扫描均为 9 个，无缺项、额外项或扫描错误。实际共享快照仍为 1 个，现有扩展宿主加载了补丁前的扫描代码；已请用户重启当前 VS Code 窗口的扩展宿主，再核验实际共享快照。应区分脚本验证与正在运行窗口的验证，不能仅凭脚本返回就认定面板已生效。
+
+2026-10-01 后续显示范围：笔记本 `agentMonitor.activeWindowMinutes` 改为 1440，补丁保留固定名单，并允许其他 Codex 对话在最近 24 小时内显示。经 C 盘入口验证当前为固定 9 个加校园 VPN，共 10 个，无缺项与超时额外项；模拟时间推进后仍保留固定 9 个。运行中窗口已应用 24 小时设置，但共享扫描仍由补丁前的旧宿主提供；用户报告重启后，实际宿主 PID 未切换，已请其在当前 jiaan_workspace 窗口重新加载窗口，固定名单在真实窗口中的长期保留仍待核验。
