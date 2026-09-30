@@ -51,7 +51,7 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 
 ## 笔记本 Codex CLI 图片粘贴
 
-2026-10-01 本机 Codex CLI 0.159.2 在 VS Code 终端中 Ctrl+V 粘贴截图无反应；剪贴板有微信截图的 DIB 与 PNG 数据，CLI 本身支持图片输入，VS Code 的默认 Ctrl+V 由终端粘贴功能处理。已在 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 添加终端专用转发，将图片粘贴按键交给 Codex。用户用 Ctrl+Alt+V 成功发送终端列表截图，随后按用户习惯改为 **Ctrl+Shift+V**，原 Ctrl+Alt+V 自定义规则移除；普通 Ctrl+V 沿用 VS Code 默认粘贴。映射仅在 Windows 终端焦点下发送 Win32 Ctrl+V 按下／松开事件：`\u001b[86;47;22;1;8;1_\u001b[86;47;22;0;8;1_`。换键前备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-image-paste-shift-20261001-014308.json`。成功接收图片已经实测；换为 Ctrl+Shift+V 后按键匹配与序列已核验，实际换键操作待用户使用确认。来源：用户截图、本机版本及配置核验、[官方图片输入说明](https://learn.chatgpt.com/docs/image-inputs)。
+2026-10-01 本机 Codex CLI 0.159.2 在 VS Code 终端中 Ctrl+V 粘贴截图无反应；剪贴板有微信截图的 DIB 与 PNG 数据，CLI 本身支持图片输入，VS Code 的默认 Ctrl+V 由终端粘贴功能处理。已在 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 添加终端专用转发，将图片粘贴按键交给 Codex。用户用 Ctrl+Alt+V 成功发送终端列表截图，随后按用户习惯改为 **Ctrl+Shift+V**，原 Ctrl+Alt+V 自定义规则移除；普通 Ctrl+V 沿用 VS Code 默认粘贴。映射仅在 Windows 终端焦点下发送 Win32 Ctrl+V 按下／松开事件：`\u001b[86;47;22;1;8;1_\u001b[86;47;22;0;8;1_`。换键前备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-image-paste-shift-20261001-014308.json`。用户随后用 Ctrl+Shift+V 再次成功发送终端列表截图，换键后的图片粘贴已实际验证通过。来源：用户截图、本机版本及配置核验、[官方图片输入说明](https://learn.chatgpt.com/docs/image-inputs)。
 
 ## 笔记本 Codex CLI 按键排障
 
