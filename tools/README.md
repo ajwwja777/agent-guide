@@ -40,3 +40,7 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 名单：`D:\Downloads\VSCodeExtensions\AgentMonitorConfig\watched-sessions.json`。0.7.0 不原生支持固定名单，采用本地补丁：修改扩展 `lib/monitor.js`，增加 `lib/watched-sessions.js`；原文件与 SHA-256 保存在同级 `AgentMonitorConfig/backups/0.7.0/`。可维护的应用脚本：[agent-monitor-patch.py](agent-monitor-patch.py)，笔记本运行副本在 `AgentMonitorConfig/apply-patch.py`，遇到版本不符停止。扩展升级后需核对补丁；本次未更改用户后续配置的通知设置。
 
 只读使用真实会话验证：配置 9 个、扫描返回 9 个，无缺项、无额外会话、无扫描错误；模拟一年后仍返回同一名单。已保存补丁，现有窗口重载后加载；名单文件的后续修改由补丁读取，无需再修改扩展代码。来源：本次用户名单、cobot_rlt 选择确认与扫描结果。
+
+2026-10-01 后续排障：用户报告面板仍只有 agent-guide。已复现 C 盘 Junction 加载路径导致名单相对路径查找错误；之前直接从 D 盘验证遗漏了该情况。辅助模块与应用脚本改用 `fs.realpathSync(__dirname)` 解析实体路径；同时在 `C:\Users\wja\.vscode\extensions\AgentMonitorConfig` 建立指向 D 盘同名配置目录的 Junction，兼容已载入的旧路径，未复制名单或历史到 C 盘。
+
+经 C 盘入口及 Node `--preserve-symlinks` 验证：固定名单与扫描均为 9 个，无缺项、额外项或扫描错误。实际共享快照仍为 1 个，现有扩展宿主加载了补丁前的扫描代码；已请用户重启当前 VS Code 窗口的扩展宿主，再核验实际共享快照。应区分脚本验证与正在运行窗口的验证，不能仅凭脚本返回就认定面板已生效。

@@ -10,7 +10,7 @@ helper="""'use strict';
 // Local fixed-session list. Conversation history and Codex settings are never modified.
 const fs = require('fs');
 const path = require('path');
-const file = path.resolve(__dirname, '../../AgentMonitorConfig/watched-sessions.json');
+const file = path.resolve(fs.realpathSync(__dirname), '../../AgentMonitorConfig/watched-sessions.json');
 let signature = '', cached = null;
 function load() {
   let st;
