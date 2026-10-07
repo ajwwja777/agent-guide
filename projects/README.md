@@ -66,3 +66,7 @@ EXPO-FT 的 `pyproject.toml`、`uv.lock` 仍有未提交修改；本次只发布
 | expo-ft | `803381fc` |
 
 EXPO-FT 的两处依赖修改仍未提交，适配／训练待开展；PREPARATION.md 合并仍交对应项目对话。校园 VPN 记录纳入 guide；Monitor 与 Ctrl+Shift+V 图片粘贴的最新验证见 [工具说明](../tools/README.md)。三个项目摘要中的问号段落已按实际原文与 JSON 发布回执重写；实际项目文档的同类损坏仍由对应项目对话处理。
+
+## 2026-10-07 实习材料项目
+
+- [智能门锁测试材料](smart-lock-testing/README.md)：77 个原始文件及 demo 已公开发布至 `ajwwja777/smart-lock-testing`，源码 Word 凭据已脱敏，A6000 与 GitHub main 同为 `53a7377`。简历数量统计待逐项核验。来源：本次材料导入与发布回执。
