@@ -10,7 +10,7 @@
 
 主仓库 main 与 OpenPI expo_ft 的 HEAD 均与各自远端一致，仍为下表版本。主仓库保留 `pyproject.toml`、`uv.lock` 两处依赖修正，未代为提交。最新跨项目交付仍将 EXPO-FT 标为待适配：环境与数据读取准备不等于 SFT/replay 适配或训练完成。下一步由算法项目确认 Cobot 数据与动作合同，再验证真实 batch 和专用归一化。
 
-来源：本次只读 Git 核验、已有基础准备记录及 [2026-09-29 跨项目交付](../../../projects/cobot-web/docs/HANDOFF_20260929.md)。历史资产路径可能随迁移变化，使用前核对实际位置；`PREPARATION.md` 合并仍由对应项目对话处理。
+来源：本次只读 Git 核验、已有基础准备记录及 [2026-09-29 跨项目交付](../../../projects/cobot-web/docs/HANDOFF_20260929.md)。历史资产路径可能随迁移变化，使用前核对实际位置；基础准备详单已于 2026-10-09 迁至实际项目 docs，见下方链接。
 
 实际项目：`/data/LFT-W02_data/jiaan/jiaan/projects/expo-ft/`。
 
@@ -35,8 +35,15 @@ OpenPI 位于主项目的 `expo_ft/agents/vla/openpi/`，是独立仓库，主�
 
 唯一依赖修正：上游TorchCodec 0.13.0与Torch 2.7.1二进制不兼容，已固定为0.3.0并验证默认视频读取；其余包版本保持上游锁定值。主仓库仅pyproject.toml和uv.lock有本轮未提交修改，OpenPI干净；没有训练、启动服务、访问Cobot/HPC、提交或push。
 
-完整交付见 [基础准备结果与适配对照](PREPARATION.md)：环境、资产地址、检查结果、Cobot接口和剩余问题。
+完整交付见 [基础准备结果与适配对照（2026-09-26 历史快照）](../../../projects/expo-ft/docs/PREPARATION_20260926.md)：环境、资产地址、检查结果、Cobot接口和剩余问题。
 
 下一项待办：与Cobot项目确认动作/夹爪语义、三相机映射及控制频率，再实现SFT/replay数据适配、验证真实batch并生成EXPO专用norm。环境和原始数据读取通过不等同于训练适配完成。
 
 来源：2026-09-26 本项目对话、官方分支、两层仓库的本地与远端核验；同步日期：2026-09-26。
+
+
+## 笔记本整理（2026-10-09）
+
+笔记本旧 cobot/plug-v3-faithful 两层仓库、完整 Git 历史与全部未提交适配已独立迁至 /data/LFT-W02_data/jiaan/jiaan/scratch/expo-ft/laptop-migration-20261009/repository/。322 文件逐项大小/SHA256 匹配，两层 Git 状态、diff、refs 与 fsck 通过；未覆盖当前主项目或旧 A6000 仓库。早期永久删除被自动审批拦截，曾将仓库与缓存暂存于同名子目录；移动后原文件哈希和 Git 状态复核通过。后续已按页首当前状态将该副本移入可恢复回收站，本地仅 AGENTS.md，不保留运行仓库。具体清理状态和证据见 [项目迁移记录](../../../projects/expo-ft/docs/MIGRATION_20261009.md) 及其中的 verification.json。
+
+PREPARATION.md 已原字节迁到实际项目 docs/PREPARATION_20260926.md，本摘要目录只留 README.md。主项目原有两处依赖修改仍未提交；旧适配归档不代表当前复现已完成适配/训练。本次没有提交、push 或访问 Cobot/HPC。来源：本次笔记本与 A6000 文件/Git 实查及迁移收据。

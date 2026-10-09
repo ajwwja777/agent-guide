@@ -125,3 +125,8 @@ A6000 web af56ffc / VLA a9f87e0 / RL aee49de 已提交 push。Cobot web 209 个�
 ### 2026-10-08：原版 π0.5 step2000 恢复到工控机 NVMe
 
 来源：cobot-web 用户错误截图及原版现场核验。首次 baseline 预热返回非有限动作，尚未进入 RTC／滤波发布；Getea 原版副本 4/28 SHA 异常、两个 MLP 张量共 30 非有限值。文件／块设备只读恢复获得全部原始 SHA；末个文件两次块设备读有 136 字节／1 扇区变化，底层故障仍未定位／修复。完整原版 28 文件、33.53 亿参数 CPU 非有限值为 0，复制到 /home/agilex/jiaan/model/vla-platform/pi05/in_the_pot/baseline_2000 并登记单键 pi05_checkpoint（web cac047a），Getea 原文件保留。20 Hz 无 RTC／滤波与 50 Hz＋RTC＋滤波真实预热均暂停就绪，GPU restore 约 5 秒，GPU 加载后全部 SHA 仍匹配。无指令发布器影子运行 300 步／750 次／15.60 秒无错误；最终原版模型 3902257 手动暂停，12 采样硬件身份保持，未实际运动或写数据／Replay。现场拥有权交还用户，实际运动复测仍待操作者完成。详见所属 docs/MIGRATION.md 与 cobot-web/outputs/pi05-baseline-finite-20261008/；guide Git 不提交／推送。
+
+
+## 2026-10-09：Franka 上传材料整理
+
+来源：Franka 项目对话。笔记本 human_upload/franka 四份历史 Word（采集部署速记、目录说明、旧交接提示、训练 pipeline）归入实际 vla-platform/outputs/franka/uploads/20261009/，共 30,844 字节，大小与 SHA256 4/4 核验一致；原件含历史登录信息，限制访问并留在 Git 忽略目录。本地无运行依赖；删除旧副本被自动审批拒绝，改将四份副本归位至 D:\Code\jiaan_workspace\franka\uploads\并再次验 SHA，human_upload/franka 已空。根层保留 AGENTS.md 和 uploads/，未创建 franka/franka/；四份上传副本目前按需保留在合规的 uploads/；此前永久删除被拒绝为历史结果，本地目录归位已完成。历史地址和操作步骤不作为当前状态；未访问真机或提交/push。详情见实际项目 docs/MIGRATION.md 及上述目录 migration-receipt.json。

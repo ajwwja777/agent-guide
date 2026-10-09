@@ -2,7 +2,7 @@
 
 ## 当前摘要（2026-10-09 复核）
 
-原生输入→Actor/Learner、完整状态恢复及多组 CPU 候选研究已形成证据；尚无独立 TEST 或自主持续收益认证，pending Actor 不自动晋升。10 月 7–8 日发布准备、异步 trace 和发送前纯反馈采样修复已交付，录制 timing 字段已在实际 API 可见；最新既有快照为 offline/recorder idle、控制 mode=fault，设备正常后才进行首轮完整受控 Online，实际当前状态需重新查询。10 月 6 日 1,311 份旧笔记本产物已 SHA 归档并进入可恢复回收站；本轮剩余本地文件只完成盘点，尚未清理。来源：所属项目 docs/MIGRATION.md、publication-feedback-20261008 回执及本摘要最新记录；本轮未操作现场。
+原生输入→Actor/Learner、完整状态恢复及多组 CPU 候选研究已形成证据；尚无独立 TEST 或自主持续收益认证，pending Actor 不自动晋升。10 月 7–8 日发布准备、异步 trace 和发送前纯反馈采样修复已交付，录制 timing 字段已在实际 API 可见；最新既有快照为 offline/recorder idle、控制 mode=fault，设备正常后才进行首轮完整受控 Online，实际当前状态需重新查询。10 月 6 日 1,311 份旧笔记本产物已 SHA 归档并进入可恢复回收站；10 月 9 日剩余本地文件已核验归档并移入可恢复回收站，本地仅 AGENTS.md，详细结果见末尾完成记录。来源：所属项目 docs/MIGRATION.md、publication-feedback-20261008 回执及本摘要最新记录；本轮未操作现场。
 
 ## 2026-09-30：项目对话入口与并行协作交接
 
@@ -359,3 +359,13 @@ rl-platform main/隔离分支8e39f6337dc65965ac66df8288fadbc42b6d03e4已推送�
 源58bdc76在A6000隔离分支验证提交push后同步Cobot两个执行模块；发送前的纯反馈/权限检查不再解码RGB，相机/关节新鲜度、HIL/暂停和50ms单次/C10保护保留。3ms三相机合成开销在旧版四频率复现51ms退出，新版各120逻辑步通过；A6000/现场Python3.10 CPU各87回归通过，7项权重/Replay/配置SHA不变。录制修复的timing字段已在实际API可见，前次“尚未生效”不再适用。
 
 本批无服务重启、模型加载、GPU或运动，当前offline/recorder idle、控制mode=fault，硬件成因未诊断，设备正常后才进入首轮受控Online。修复随下一次RLT进程加载生效；首轮完整标注/录制/入库/更新需现场验证，不等同长期连续稳定或自主收益认证，pending Actor不自动晋升。事实、图、命令、保护SHA与回退见projects/rl-platform/outputs/publication-feedback-20261008及docs/audits/2026-10-08-publication-feedback.md。Guide Git不提交/推送。
+
+
+## 2026-10-09：笔记本归档核对（清理待完成）
+
+按最新目录约定完成遗留审计材料的逐文件大小/SHA256核对与必要补归档，区分 10 月 6 日收据覆盖内容及本次独立核验内容。本地入口已更新；本地删除被执行工具自动审批拒绝，原目录仍保留，不能标记整理完成。无训练资产、Replay、Cobot 服务或机器人变更。来源：主项目 docs/MIGRATION.md 的同日记录；详细收据留所属私有 scratch。guide Git 不由本任务提交/推送。
+
+
+## 2026-10-09：笔记本目录整改完成
+
+在用户明确选择可恢复清理后，重新核对全部本地文件与 A6000 保留副本，确认无遗漏，旧审计、输出和预览目录已移入 Windows 回收站并逐文件复核，未清空回收站。笔记本 rl-platform 仅保留 AGENTS.md，无本地必需运行文件或本批上传材料，不创建空目录。此前“清理待完成”为历史状态，本次整改已完成；无训练资产、Replay、服务或机器人变更。来源：主项目 docs/MIGRATION.md 同日完成记录；逐项证据保存在所属私有 scratch/rl-platform/laptop-layout-20261009/。guide Git 不由本任务提交/推送。

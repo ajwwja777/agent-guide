@@ -1,5 +1,16 @@
 # 各机器空间清理
 
+## 2026年10月9日 笔记本项目目录整理完成
+
+来源：用户要求按最新笔记本目录约定整理本项目，本轮未追加 C 盘清理。笔记本外层 `D:\Code\jiaan_workspace\storage-cleanup\` 仅保留 AGENTS.md 和同名运行子目录；当前没有上传材料，uploads 未创建。Windows 必需工具、配置和测试在 `D:\Code\jiaan_workspace\storage-cleanup\storage-cleanup\{scripts,configs,tests}`，本地说明和整理回执分别在同名子目录 README.md 与 reports/layout-20261009/layout-summary.md。
+
+195 个保留文件、481213952 字节已按大小和 SHA256 核验 A6000 副本：129 个与主项目已有副本一致、64 个补齐、2 个不同的本地历史报告存入私有 reports/layout-20261009/local-originals，未覆盖远端最新记录。历史机器报告归主项目 reports，机器配置归 configs/local，一次性脚本归主项目 scratch；docs 和通用主代码、测试由 A6000 维护。笔记本原根层 scripts/configs/docs/reports/scratch/tests 与 README/.gitignore/.gitattributes 副本已清理，3 个可再生成的 pyc 和工作区 .tmp/cleanup_c_caches.ps1 已删除。旧 PowerShell 清理脚本仅检查内容，未执行。
+
+新路径的 Windows 7 项测试通过 6 项、符号链接权限限制跳过 1 项；A6000 7 项测试通过 6 项、Windows API 项按平台跳过。旧目录移除后再次执行 Windows 测试、合成小目录 CLI 盘点与具体配置文件占用核验均通过，未扫描或删除 C 盘。默认配置继续按脚本位置解析；相对输出路径从工作目录解析。历史脚本仅存溯源，含旧路径及已消费授权，不作为新位置的自动删除入口。
+
+机器报告、迁移回执、实际配置和一次性脚本位于 Git 忽略目录；远端公开 Git 工作区保持干净，本次未提交或推送机器资料。完整清单、差异副本和校验结果见主项目 reports/layout-20261009/，对应项目说明见同目录 layout-summary.md。本地完整历史副本与迁移临时包不保留。
+
+
 ## 2026年10月9日 D1 和 D2 授权清理完成
 
 来源：用户查看 D1 六个扩展下载包和 D2 一个旧运行版本的精确路径与影响后确认“删去”。按清单删除全部 51 个文件，逻辑大小 1.646 GiB，无跳过或失败。全部候选文件路径及 daemon 0.160.1 根目录已确认不存在，仅对获授权范围内的空目录调用 rmdir。C 盘可用空间由 119.98 MiB 增至 1.763 GiB，净增加 1.645 GiB。
@@ -160,7 +171,7 @@ recording_tmp 是原始数据，旁边的 LeRobot 转换目录尚未逐 episode 
 
 - A6000 主项目：`/data/LFT-W02_data/jiaan/jiaan/projects/storage-cleanup/`。
 - 正式机器记录：`/data/LFT-W02_data/jiaan/jiaan/projects/storage-cleanup/reports/project-state.md`；公开 README 仅保留通用说明。
-- 笔记本对话及执行副本：`D:\Code\jiaan_workspace\storage-cleanup\`。
+- 笔记本对话入口：`D:\Code\jiaan_workspace\storage-cleanup\AGENTS.md`；Windows 运行副本：`D:\Code\jiaan_workspace\storage-cleanup\storage-cleanup\`。
 - 仓库：[ajwwja777/storage-cleanup](https://github.com/ajwwja777/storage-cleanup)，公开，分支 `main`。
 
 2026-09-26：精简框架已确认，基础已提交并推送。提交 `d786d0bccce59f26f03fdd8fc8703d781fc3dfa4`，已核验本地、Git 远端和 GitHub API 一致。发布包括 Windows 只读盘点、文件占用核验、配置示例、使用说明、清理项说明和回归检查；完整报告、实际配置及一次性删除脚本留在私有目录。A6000 维护主代码，各目标机器本机执行；其他 Windows 笔记本可独立使用。

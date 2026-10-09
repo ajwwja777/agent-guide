@@ -20,7 +20,7 @@ Franka、各模型、RTC、ZR-0／LiLaWAM 及仿真评测归入 vla-platform；R
 
 - [框架工具](../tools/README.md)：归 agent-guide 维护的长期工具与辅助脚本。
 - [EXPO-FT × Cobot](expo-ft/README.md)：环境与原始数据读取准备完成；两处依赖修改未提交，SFT/replay 适配、真实 batch 和训练待完成。
-- [各机器空间清理](storage-cleanup/README.md)：最新 10 月 9 日 D1/D2 清理 51 文件／1.646 GiB；当时 C 盘可用 1.763 GiB，私有报告已归档 A6000，本地目录归位待项目对话处理。
+- [各机器空间清理](storage-cleanup/README.md)：最新 10 月 9 日 D1/D2 清理 51 文件／1.646 GiB；当时 C 盘可用 1.763 GiB，私有报告已归档 A6000，本地已整理为入口 MD 加同名 Windows 运行子目录。
 
 ops 不再有独立项目入口；本地目录已清理，历史 Git、备份和删除回执见 [cobot-web](cobot-web/README.md)。
 
@@ -76,12 +76,16 @@ EXPO-FT 的两处依赖修改仍未提交，适配／训练待开展；PREPARATI
 上方当前摘要依据实际项目 10 月 5–9 日的记录及已有验收回执更新；下方和前文历史版本表仅代表各自核对日期。本轮未复跑现场服务、训练或动作，也未操作其他项目 Git。
 
 - [校园 VPN](campus-vpn/README.md)：最新记录改为精确网关域名使用动态 114 DNS、校园网关选择 DIRECT；物理 WLAN HTTPS 和配置验证通过，新 VPN 会话及切换网络后的业务仍待项目复验。此前默认香港9为历史方案。
-- 申请材料项目 `school-application`：笔记本入口 `D:\Code\jiaan_workspace\school-application\AGENTS.md`。目前已有上传材料、版本稿和本地生成工具；尚无 A6000 实际工作区，待项目对话迁移并只保留本地必需内容。个人材料不写入公开 guide；未建立 Git。
-- 审稿能力与评价 agent 项目 `paper-review-agent`：笔记本入口 `D:\Code\jiaan_workspace\paper-review-agent\AGENTS.md`。已有上传材料及检查预览；尚无 A6000 实际工作区，待项目对话迁移整理，未建立 Git。此登记不表示审稿完成或 agent 已实现；稿件、评审细节不纳入公开 guide。
+- [论文参考文献核查](paper/README.md)：材料与核查记录归 A6000 私有主工作区，本地副本和缓存已移入回收站，仅保留 AGENTS.md；未建立 Git。
+- [申请材料项目](school-application/README.md)：2026-10-09 已建立 A6000 私有主工作区，材料、版本稿、脚本与记录已迁移并核验；生成流程试编译通过，本地旧副本和缓存已清理，仅保留入口与原始 uploads/。个人材料不纳入公开 guide；未建立 Git。
+- [审稿能力与评价 agent](paper-review-agent/README.md)：2026-10-09 已建立 A6000 私有主工作区，材料与检查成果大小/SHA256 校验通过；本地副本及可重建预览已移入 Windows 回收站，当前只留 AGENTS.md 和空 uploads/，回收站未清空。未建立 Git，稿件与评审记录只在私有项目。
 
-智能门锁项目 10 月 7 日已有 README 总览更新（A6000 HEAD `b030184`）；前文 `53a7377` 是材料首次发布版本。材料、生成成果与缓存按用途处理，八个待整理项目和工作区散落文件目前只完成盘点，未由框架对话清理。
+智能门锁项目 10 月 7 日已有 README 总览更新（A6000 HEAD `b030184`）；前文 `53a7377` 是材料首次发布版本。材料、生成成果与缓存按用途处理；截至本轮发布，16 个本地项目根层均符合约定，废弃入口及工作区根层散落目录已清理。回收站未清空，目录整改不等于物理空间已释放。
 
 来源：2026-10-09 本地文件、A6000 实际目录与项目记录核对。后续整理结果由对应项目对话更新摘要。
+
+
+2026-10-09 EXPO-FT 后续：历史详单已原字节迁入实际项目 docs/PREPARATION_20260926.md，guide 项目目录只留 README.md；本地旧两层仓库已核验归档并移入回收站，仅保留入口，详见 [EXPO-FT 摘要](expo-ft/README.md)。
 
 ## 2026-10-09 后续：EXPO-FT 与废弃 cobot_rlt 的本地副本清理完成
 

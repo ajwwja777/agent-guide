@@ -304,3 +304,12 @@ cobot-web `22b058c` 已提交/push：网页每路独立缓存/帧率/更新版�
 ### 2026-10-08：原版 π0.5 step2000 恢复到工控机 NVMe
 
 来源：cobot-web 用户错误截图及原版现场核验。首次 baseline 预热返回非有限动作，尚未进入 RTC／滤波发布；Getea 原版副本 4/28 SHA 异常、两个 MLP 张量共 30 非有限值。文件／块设备只读恢复获得全部原始 SHA；末个文件两次块设备读有 136 字节／1 扇区变化，底层故障仍未定位／修复。完整原版 28 文件、33.53 亿参数 CPU 非有限值为 0，复制到 /home/agilex/jiaan/model/vla-platform/pi05/in_the_pot/baseline_2000 并登记单键 pi05_checkpoint（web cac047a），Getea 原文件保留。20 Hz 无 RTC／滤波与 50 Hz＋RTC＋滤波真实预热均暂停就绪，GPU restore 约 5 秒，GPU 加载后全部 SHA 仍匹配。无指令发布器影子运行 300 步／750 次／15.60 秒无错误；最终原版模型 3902257 手动暂停，12 采样硬件身份保持，未实际运动或写数据／Replay。现场拥有权交还用户，实际运动复测仍待操作者完成。详见所属 docs/MIGRATION.md 与 cobot-web/outputs/pi05-baseline-finite-20261008/；guide Git 不提交／推送。
+
+
+## 2026-10-09：笔记本网页项目归档与整理
+
+来源：用户本次目录整理授权、所属项目 docs/MIGRATION.md 和 outputs/laptop-cleanup-20261009/ 核验回执。已清理本地网页 scratch 与工作区两批明确归网页的迁移/恢复材料：99 文件、3,998,026 bytes，93 个已有同大小/SHA 的 A6000 副本，5 个历史脚本/预览文件补充归档并补齐 3 项预览依赖；另 1 个迁移包是完整 A6000 包的截断前段，无新增内容，保留完整包。
+
+笔记本 `D:\Code\jiaan_workspace\cobot-web` 根层仅 AGENTS.md；上传材料按需放 uploads/，本地浏览器工具/输出按需放 cobot-web/，目前无须创建这些目录。新增历史材料在 `/data/LFT-W02_data/jiaan/jiaan/scratch/cobot-web/laptop-cleanup-20261009/retained/`，映射、哈希及清理证据在 `/data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/outputs/laptop-cleanup-20261009/`。未连接 Cobot、未接管或重启网页/模型/硬件，其他项目及共享工作区文件保留；不新增现场验收结论。guide Git 不由本对话提交或推送。
+
+Project documentation release: `5582aedfde698697c67ddb083a6d0cf153292b76` (A6000 main = origin/main); guide Git remains uncommitted by this task.
