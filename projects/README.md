@@ -7,10 +7,10 @@
 | 项目 | 职责 | 状态 |
 |---|---|---|
 | [cobot-control](cobot-control/README.md) | 硬件、独立前后双臂、CAN／ROS／相机、示教与归位。 | 共用 CAN／设备规则、示教显示与独立 CLI 已发布；TX 卡死根因、驱动重建及剩余动作验收待现场 |
-| [cobot-dagger](cobot-dagger/README.md) | 数采、HIL、mask 与 DAgger 迭代。 | 录制保留模型恢复、暂存与历史结果修复已发布；采集领域 78 项回归通过，真实 HIL 全流程待现场 |
-| [vla-platform](vla-platform/README.md) | 基于 FluxVLA；模型、Franka／Cobot、RTC 与真机／仿真评测。 | 共用 Hz／RTC／滤波配置与暂停适配器已接入；CPU／合成与 dry-run 通过，各模型连续真机待验收 |
-| [rl-platform](rl-platform/README.md) | RLT、EXPO-FT 的统一实验入口，保留算法独立实现。 | MC30 诊断、可选异步 RTC 与 NVMe Stage1 引用已发布；自主收益、在线分支及连续 50 Hz 待现场，EXPO-FT 待适配 |
-| [cobot-web](cobot-web/README.md) | 网页、API 编排、命令行使用、任务／状态、网页故障与恢复。 | 方法／步数、历史结果、所选执行参数与两行权重路径已发布；734 后端／69 前端回归通过，视觉和真机全流程待现场 |
+| [cobot-dagger](cobot-dagger/README.md) | 数采、HIL、mask 与 DAgger 迭代。 | 录制迟到补采已修复，新增积压/时延诊断；领域 80 项及合成 480 帧验证通过，真实 HIL 与持续录制待验收 |
+| [vla-platform](vla-platform/README.md) | 基于 FluxVLA；模型、Franka／Cobot、RTC 与真机／仿真评测。 | π0.5 两套原始权重恢复到获准 NVMe 路径；真实预热暂停加载及无指令影子验证通过，连续真机与 Getea 底层故障仍待处理 |
+| [rl-platform](rl-platform/README.md) | RLT、EXPO-FT 的统一实验入口，保留算法独立实现。 | 离线候选/完整恢复核验、控制发布与反馈采样修复已交付；首轮完整受控 Online、自主持续收益及 EXPO-FT 适配待验证 |
+| [cobot-web](cobot-web/README.md) | 网页、API 编排、命令行使用、任务／状态、网页故障与恢复。 | 独立相机预览、π0.5 原始权重恢复与退出释放修复已交付；暂停加载/影子验证通过，连续真机全流程待操作者验收 |
 
 Franka、各模型、RTC、ZR-0／LiLaWAM 及仿真评测归入 vla-platform；RLT、EXPO-FT 归入 rl-platform。归属登记不表示旧代码或资产已完成迁移。每次只迁移一个可验收范围，验证后切换，再清理对应旧文件。
 
@@ -20,7 +20,7 @@ Franka、各模型、RTC、ZR-0／LiLaWAM 及仿真评测归入 vla-platform；R
 
 - [框架工具](../tools/README.md)：归 agent-guide 维护的长期工具与辅助脚本。
 - [EXPO-FT × Cobot](expo-ft/README.md)：环境与原始数据读取准备完成；两处依赖修改未提交，SFT/replay 适配、真实 batch 和训练待完成。
-- [各机器空间清理](storage-cleanup/README.md)：最新 9 月 28 日 R1–R3 清理 1209 文件／0.688 GiB；当时 C 盘可用 4.410 GiB，下一步系统清理候选待单独确认。
+- [各机器空间清理](storage-cleanup/README.md)：最新 10 月 9 日 D1/D2 清理 51 文件／1.646 GiB；当时 C 盘可用 1.763 GiB，私有报告已归档 A6000，本地目录归位待项目对话处理。
 
 ops 不再有独立项目入口；本地目录已清理，历史 Git、备份和删除回执见 [cobot-web](cobot-web/README.md)。
 
@@ -70,3 +70,15 @@ EXPO-FT 的两处依赖修改仍未提交，适配／训练待开展；PREPARATI
 ## 2026-10-07 实习材料项目
 
 - [智能门锁测试材料](smart-lock-testing/README.md)：77 个原始文件及 demo 已公开发布至 `ajwwja777/smart-lock-testing`，源码 Word 凭据已脱敏，A6000 与 GitHub main 同为 `53a7377`。简历数量统计待逐项核验。来源：本次材料导入与发布回执。
+
+## 2026-10-09 摘要复核与材料项目
+
+上方当前摘要依据实际项目 10 月 5–9 日的记录及已有验收回执更新；下方和前文历史版本表仅代表各自核对日期。本轮未复跑现场服务、训练或动作，也未操作其他项目 Git。
+
+- [校园 VPN](campus-vpn/README.md)：最新记录改为精确网关域名使用动态 114 DNS、校园网关选择 DIRECT；物理 WLAN HTTPS 和配置验证通过，新 VPN 会话及切换网络后的业务仍待项目复验。此前默认香港9为历史方案。
+- 申请材料项目 `school-application`：笔记本入口 `D:\Code\jiaan_workspace\school-application\AGENTS.md`。目前已有上传材料、版本稿和本地生成工具；尚无 A6000 实际工作区，待项目对话迁移并只保留本地必需内容。个人材料不写入公开 guide；未建立 Git。
+- 审稿能力与评价 agent 项目 `paper-review-agent`：笔记本入口 `D:\Code\jiaan_workspace\paper-review-agent\AGENTS.md`。已有上传材料及检查预览；尚无 A6000 实际工作区，待项目对话迁移整理，未建立 Git。此登记不表示审稿完成或 agent 已实现；稿件、评审细节不纳入公开 guide。
+
+智能门锁项目 10 月 7 日已有 README 总览更新（A6000 HEAD `b030184`）；前文 `53a7377` 是材料首次发布版本。材料、生成成果与缓存按用途处理，八个待整理项目和工作区散落文件目前只完成盘点，未由框架对话清理。
+
+来源：2026-10-09 本地文件、A6000 实际目录与项目记录核对。后续整理结果由对应项目对话更新摘要。

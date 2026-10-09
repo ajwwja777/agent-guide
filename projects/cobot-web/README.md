@@ -1,5 +1,9 @@
 # Cobot 操作网页
 
+## 当前摘要（2026-10-09 复核）
+
+独立相机预览、π0.5 导入/代际取消及 kill 后释放修复已交付。DAgger 与原版两套 π0.5 原始迁移 SHA 均恢复到用户批准的 Cobot NVMe 路径，实际 20 Hz 和 50 Hz＋RTC＋滤波预热均 ready/PAUSED，无机器人指令发布器的影子运行通过。Getea 底层读取问题未定位或修复，连续运动与长期 50 Hz 尚未验收。以下保留各阶段故障及恢复记录，最终结论以最新节为准。来源：所属项目 docs/MIGRATION.md 与本摘要 10 月 6–8 日记录；本轮未重新查询实时 PID/状态。
+
 ## 2026-09-30：项目对话入口与并行协作交接
 
 用户指定 cobot-web 对话负责本领域，允许多个专题及 fork 并行。笔记本 D:\Code\jiaan_workspace\cobot-web\AGENTS.md 指向本项目；职责、当前问题、worktree/任务范围登记与现场单一负责人约定见 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-web/AGENTS.md。对话不共享实时上下文，接管重查 Git 和现场，不沿用历史 PID/版本。
@@ -261,3 +265,42 @@ cobot-web 发布 562f8f83317617213ecac6c5e1a5ea367c876d81；三项目源码／�
 ## 2026-10-01：选中即显示两行权重路径
 
 采集与部署共用选择器立即显示所选权重与 Base model 两行路径，清空选择同步清空旧值；无 base 时仅显示实际权重。web bdf2e087 已 push，静态运行文件与正式 HTTP 资源 SHA 核对一致。69 项前端回归及现场目录 15 个可选模型的 DOM 核验通过；网页 PID 970937 与采样硬件／模型身份保持，未重启网页、加载模型或发动作，真实浏览器视觉仍待验收。来源：实际 cobot-web/docs/MIGRATION.md 最新节与 outputs/selected-paths-20261001/。
+
+## 2026-10-01：迁移记录问号段落已修复
+
+来源：guide 转交、cobot-web 本对话核验。实际项目 docs/MIGRATION.md 的 2026-09-30 现场验收段落在最初 Git 提交中已为字面问号；已依据当次 outputs/recording-defer-rate-20260930/ 的版本、前后状态、网页重载、缓存和最终发布回执重写，区分首次 web 98488778 与最终 e75d3cbb，并保留 50 Hz／视觉未验收边界及历史快照日期。UTF-8、无连续问号／替代字符、段落外内容不变和 Cobot 文档 SHA 校验通过；文档修复版本 95392105b09c64b8f6a4b43089f0890a67a47584 已 push 并仅同步文档，未重启网页／模型／硬件。原损坏段落及修复回执：cobot-web/outputs/migration-encoding-20261001/。guide Git 不由本对话提交／推送。
+
+
+## 2026-10-06：单路掉线时独立相机预览
+
+cobot-web `22b058c` 已提交/push：网页每路独立缓存/帧率/更新版本，一路断线、冻结或编码失败时其余继续预览，异常画面隐藏提示，恢复自动重连。评测首尾图的同步三路合同、录制/模型输入/控制不变。743 Python 通过/6既有跳过、69前端通过；隔离实际HTTP/MJPEG合成断线验证正常两路各8张不同JPEG、恢复ready；Chromium显示回归通过。
+
+现场初次发布检查遇到活动录制，未中断；用户结束并确认后，209运行文件SHA同步，只重载网页7444→63917。相机/ROS/机械臂/保留Stage1共7进程身份不变；三路实际预览各约16FPS且版本持续推进/JPEG有效，录制idle、模型offline。原文件备份在Cobot `runtime/incidents/independent-camera-preview-20261006/before`。源码/完整事实见所属项目 `docs/MIGRATION.md`，验证/发布回执见 `scratch/cobot-web/independent-camera-preview/validation/delivery.json`。Guide Git不提交/push。
+
+## 2026-10-08：π0.5 导入修复；DAgger 权重阻碍
+
+来源：cobot-web 用户报告及本对话现场核验。VLA 明确包名导入修复已发布 83a49c9c059da661df34f152c617b7d54d3424a5，144 项 CPU 回归及真实环境 8 个导入组合通过。实际 DAgger 3000 的暂停加载在首次普通 baseline 预热失败；只读扫描发现 4 个参数张量共 96 个非有限值，19 个文件中 4 个 SHA 与 9 月 28 日迁移记录不同。旧路径是当前坏权重链接，历史训练机两个登记入口均超时，等待可信同版本权重；部署尚未恢复，不声称 20／50 Hz 真机通过。最终无模型运行、网页及 12 个采样硬件／模型身份保持，未运动／写 Episode／改 Replay／权重，现场拥有权释放。完整证据 cobot-web/outputs/pi05-import-20261008/，详见所属项目 docs/MIGRATION.md，本次文档版本 b6e76171d7902219a8af076e99661cd4ac82fbee；guide Git 不提交／推送。
+
+### 2026-10-08 追加：更正 π0.5 权重初步归因
+
+用户补充迁移后曾成功且旧训练机已不用；现场 9 月 29 日两次 DAgger ready＋PAUSED 日志支持，同样加载当前 Getea DAgger 路径。用户指定旧部署目录 step_3000 是当前权重链接。直接读取及针对 checkpoint 的缓存 advice 曾使一个文件恢复原 SHA，但其他仍异常，后续恢复又令读取 SHA 改变；CPU 非有限参数由 96 变 127，隔离串行读取 embedding 仍有 26。独立读取样本 395 字节／3 扇区有差异，多数候选未匹配原 SHA，不部署。尚不能确认持久文件损坏；不以旧训练机副本为唯一恢复路径。等待管理员底层只读诊断信息以区分文件系统／缓存／内存／读取路径。15:39 释放现场后，网页已另行加载 RLT，本对话不停止或切换它。源码修复完成，实际 DAgger 恢复仍未完成。详见所属 MIGRATION 追加核验与 cobot-web/outputs/pi05-import-20261008/，文档 8ef45d39fe41649eb206cfddc87e5a08980f4f0d；guide Git 不提交／推送。
+
+### 2026-10-08：π0.5 原始 DAgger 权重恢复到 NVMe
+
+底层只读读取获得全部 19 文件原始迁移 SHA，CPU 恢复 33.53 亿参数非有限值为 0，恢复后全部 SHA 稳定。两次块设备 O_DIRECT 样本仍出现差异，底层链路故障未定位或修复。用户明确批准永久 NVMe 路径 /home/agilex/jiaan/model/vla-platform/pi05/in_the_pot/dagger_2000plus3000，原 Getea 权重保留；web 主机配置登记仅此模型例外。用户批准接管做暂停加载，接管时模型 offline、无录制/GPU 任务。实际 20／50 Hz＋RTC＋滤波加载结果待追加；不以 CPU 验收代替运行验收。来源：所属 docs/MIGRATION.md、web outputs/pi05-import-20261008/；文档发布 c516622147b712c1f7d3cc1cd327d0e532a83e15，guide Git 不提交／推送。
+
+### 2026-10-08：π0.5 DAgger 暂停部署恢复通过
+
+来源：所属项目 MIGRATION 最终验收与 web outputs/pi05-import-20261008/。完整原始 19 文件恢复到用户批准的 NVMe 路径，CPU 参数非有限值为 0，GPU 加载后 SHA 仍全匹配。20 Hz 无 RTC／滤波及 50 Hz＋RTC＋滤波两次真实 observation＋baseline／guided RTC 预热 ready and PAUSED；最终保留 50 Hz 手动暂停，3 秒只读监测无 policy 动作消息，无运动、录制或 Replay 编辑。只重载网页生效路径；重载当时硬件 12 身份保持，加载后另有 cameras_up 使三路相机 PID 改变，本任务没有发硬件启停，最终其余 9 身份保持。Getea 底层读取链路故障尚未定位／修复；不要误称整机存储健康或运动／50 Hz 连续发布已验收。文档 f67d3f859ba799ff942ed7127428212eca242c36；guide Git 不提交／推送。
+
+### 2026-10-08：π0.5 运动后退出修复，保持暂停待操作者复测
+
+用户运动后退出；无发布器影子诊断确认首次 guided RTC 延迟超过 baseline 初始化预测，异步停止又与 50 Hz 发布 reset 竞争产生 NoneType。已修复代际取消竞争，Task2 异常保护性手动暂停并保留模型／原始原因；网页显示 fault。guided 预热后两次往返校准＋2 逻辑步余量，严格超时／过期动作检查保留，逻辑 20 Hz／发布 50 Hz 不变。VLA f4f1f6b／29cbbb6，web 803d797，48＋50 项测试通过／1 既有跳过，SHA 与两套 RTC manifest 同步核验。中断 eval 保留为 unknown，三个 start JPEG 字节保持。真实相机／关节／NVMe DAgger 的无机器人指令发布器影子运行 300 步／750 次／15.76 秒无错误；最终模型 3727953 保持 ready／手动暂停、无活动轮次／writer。只重载网页，12 采样硬件身份保持；没有实际运动验收，拥有权交还用户。详细事实与证据在所属 docs/MIGRATION.md 和 cobot-web/outputs/pi05-publication-race-20261008/；Getea 底层读取问题未修复。guide Git 不提交／推送。
+
+### 2026-10-08：π0.5 终端 kill 后释放超时修复
+
+来源：cobot-web 用户报错与现场核验。policy server 已退出但 launcher／客户端残留，旧释放被不存在的 /task2/policy/set_paused 超时阻断。web 05bc673 已 push／SHA 同步：明确 unload 的有界暂停失败保存 warning，继续仅停止身份核验的所属组，确认全部退出才 offline；PID 复用／等待期间退出／未退出拒绝等合计 85 passed／1 既有 skipped。正式 HTTP 对当前残留组真实释放，原服务仍超时但 5.38 秒后 offline／无组成员、error／active／writer 清空，warning 保留。只重载网页，未加载模型、恢复推理、归位、重启硬件或改数据／权重；现场拥有权交还用户。详细事实见所属 docs/MIGRATION.md 与 outputs/pi05-release-after-kill-20261008/。guide Git 不提交／推送。
+
+### 2026-10-08：原版 π0.5 step2000 恢复到工控机 NVMe
+
+来源：cobot-web 用户错误截图及原版现场核验。首次 baseline 预热返回非有限动作，尚未进入 RTC／滤波发布；Getea 原版副本 4/28 SHA 异常、两个 MLP 张量共 30 非有限值。文件／块设备只读恢复获得全部原始 SHA；末个文件两次块设备读有 136 字节／1 扇区变化，底层故障仍未定位／修复。完整原版 28 文件、33.53 亿参数 CPU 非有限值为 0，复制到 /home/agilex/jiaan/model/vla-platform/pi05/in_the_pot/baseline_2000 并登记单键 pi05_checkpoint（web cac047a），Getea 原文件保留。20 Hz 无 RTC／滤波与 50 Hz＋RTC＋滤波真实预热均暂停就绪，GPU restore 约 5 秒，GPU 加载后全部 SHA 仍匹配。无指令发布器影子运行 300 步／750 次／15.60 秒无错误；最终原版模型 3902257 手动暂停，12 采样硬件身份保持，未实际运动或写数据／Replay。现场拥有权交还用户，实际运动复测仍待操作者完成。详见所属 docs/MIGRATION.md 与 cobot-web/outputs/pi05-baseline-finite-20261008/；guide Git 不提交／推送。

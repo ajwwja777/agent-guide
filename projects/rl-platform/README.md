@@ -1,5 +1,9 @@
 # 统一 RL 实验平台
 
+## 当前摘要（2026-10-09 复核）
+
+原生输入→Actor/Learner、完整状态恢复及多组 CPU 候选研究已形成证据；尚无独立 TEST 或自主持续收益认证，pending Actor 不自动晋升。10 月 7–8 日发布准备、异步 trace 和发送前纯反馈采样修复已交付，录制 timing 字段已在实际 API 可见；最新既有快照为 offline/recorder idle、控制 mode=fault，设备正常后才进行首轮完整受控 Online，实际当前状态需重新查询。10 月 6 日 1,311 份旧笔记本产物已 SHA 归档并进入可恢复回收站；本轮剩余本地文件只完成盘点，尚未清理。来源：所属项目 docs/MIGRATION.md、publication-feedback-20261008 回执及本摘要最新记录；本轮未操作现场。
+
 ## 2026-09-30：项目对话入口与并行协作交接
 
 用户指定 rl-platform 对话负责本领域，允许多个专题及 fork 并行。笔记本 D:\Code\jiaan_workspace\rl-platform\AGENTS.md 指向本项目；职责、当前问题、worktree/任务范围登记与现场单一负责人约定见 /data/LFT-W02_data/jiaan/jiaan/projects/rl-platform/AGENTS.md。对话不共享实时上下文，接管重查 Git 和现场，不沿用历史 PID/版本。
@@ -217,3 +221,141 @@ A6000 web af56ffc / VLA a9f87e0 / RL aee49de 已提交 push。Cobot web 209 个�
 来源：cobot-web 当前任务。原版／MC30 方法与纯数字步数独立，固定 5000 保留，新增在线分支读取真实已发布步数；所选 50 Hz 的详情与实际生效设置分开。历史标签接口与目录迁移一致，普通采集节点历史保留记录结果，成功／失败／未知可修改并同步同目录显示。Stage1 清单和实际 CPU preflight 恢复 NVMe /home/agilex/jiaan/data/rlt/plug_insertion/reference_4999；在线资产按原登记引用，未搬数据／权重。
 
 rl-platform 发布 bf111eb70cb25d3e65de58a0dd8a63c8f8b23cbe；三项目源码／记录 SHA 已核验，正式 8015 只重载网页 PID 970937。模型 offline、recorder idle、无活动 writer；9 个采样硬件／模型身份及固定 5000／历史标签 SHA 不变。离线前端 69、完整 web 734（6 skipped）、末次相关 60（1 skipped）、采集 78、RL 24 通过。8 条实际历史标签 GET 与目录 DOM 通过；未启动 GPU／训练／动作，真实在线分支与 50 Hz 连续运动、浏览器视觉仍待现场。详见实际项目 docs/MIGRATION.md 与 web outputs/catalog-results-20261001/final-release.json；guide Git 未提交或推送。
+
+## 2026-10-05：离线输入合同与模型候选研究事实
+
+rl-platform独立分支audit/q-guidance-20261005完成Stage1全部134训练见过Episode/19022帧的实际模型诊断、120专家/1186 transition动作重建，确认30Hz旧参考与20Hz训练目标合同不一致；不能直接给旧5k Actor换重采样20Hz参考。两条早期错误任务提示词轨迹的29条记录已精确追到Warmup训练，入口已增加ROS构造前任务检查；现有启动脚本任务设置正确。30组Actor继续训练、6组从零原生Warmup5k及此前6组Critic目标对照完成；没有新模型凭拟合/Q/TD自动放行。
+
+可选staged发布实际CPU多进程验证候选2507/执行2500隔离、更新预算与恢复；3个固定真实输入在实际服务独立恢复间动作/Token完全一致，缓存数值严格阈值失败仍保留。软件412项通过，在线冻结环境相关28项通过。本批未部署/启停现场/运动，生产Replay/权重/默认配置/固定上游不改；独立自主收益与真机Online放行证据不足。
+
+1728/1751条rollout动作窗口唯一精确追到trace，另11歧义/12缺失留空；完整覆盖Episode的记录时间跨度不符合统一20Hz目标，不能当作硬件发布时钟。五帧原录制输入的A6000 GPU0输出指纹探测没有唯一匹配，旧VLA图像身份仍缺证；未用最近帧补造输入。
+
+来源：/data/LFT-W02_data/jiaan/jiaan/projects/rl-platform/docs/MIGRATION.md 2026-10-05记录、outputs/offline-model-selection-20261005/delivery.json及实际launch/report回执；Guide只追加事实，本对话不提交或推送guide Git。
+
+## 2026-10-05：HIL 命令/反馈溯源补充与相机输入合同修复
+
+本轮延续 q-guidance 隔离工作区，读取现有 216 份 HDF5 的低维字段。31 个 Episode 的 2,586 个严格身份配对 HIL 步骤中，2,585 个 action 等于 next-state 测量反馈；786 步有反馈完全相同的时间兼容原始帧，722 步候选命令相同，但缺逐步命令发布回执，未恢复为可直接训练的历史命令动作、未改 Replay。固定上游 HIL 常规路径使用 cmd_topic 收到的命令，首次无命令时才回退反馈；本地反馈目标与其语义差异已验证，自主收益因果证据不足。
+
+修复 RosTask2IO 两条相机采样路径的 RGB 条件性合同错误，并在同步/异步 trace 记录步骤前后 I/O 证据，保留左右独立 coordinator 命令与源/接收时间，右臂有效性不依赖左臂新鲜度。该证据不是执行确认，不改变 Replay 动作或生产默认。现场只读查询三路相机当前均 rgb8，五帧 BGR 对照不匹配旧 Token/ref，不能把颜色称作已定位现场根因。
+
+418 项整套回归、3 项分析专项测试通过，最后修正后 49 项定向测试通过；初始缺依赖环境失败日志保留。A6000 GPU0 只做五帧已有图像对照后释放，GPU1 未动；未启停现场、加载现场模型、运动或切权重。未新增训练或放行 Actor；模型独立能力与受控冻结验收仍未通过。详细身份、命令、图和边界：`outputs/hil-command-audit-20261005/`，上一批交付仍在 `outputs/offline-model-selection-20261005/`。
+
+Source commit: a3e17a5436d650d984f4e17d3c59109db6bb54e0; field code/runtime not switched. Guide Git not committed or pushed.
+
+HIL 配对 Critic 补证（同日）：CPU 原 5k Critic、229 个窗口/31 个 Episode；全 Episode 终端标签为辅助成功 30、失败 1。仅替换已观察命令候选相同的槽位，并与同槽位 FP32 反馈基准比较以分离量化影响。完整 trace 覆盖的 12 个训练 Episode 平均 ΔQ1=-0.01036，Episode bootstrap 95% [-0.01821,-0.00273]；反复使用的开发集 3 个完整 Episode 为 -0.00827，[-0.01691,-0.00224]。min-Q 也平均下降。缺失命令使其仅是条件性冻结 Critic 响应，不证明命令最优、精确历史动作身份或自主收益。初版私有脚本把选中非终端 success 标记当整轮结果的错误已修正并保存旧报告；Q 数值与区间完全不变。详细身份/配置/CPU命令/图：`outputs/hil-command-audit-20261005/command_critic_report.json`。
+
+2026-10-05 Online provenance audit: Replay75 Online Episodes/1446 transitions, operator labels8 autonomous success/23 assisted/44failure;172 unique core trace matches,10complete Episodes. Saved Learner11000 vs Actor snapshot11500; original5k release is historical. Optional input receipts defaultoff, full426 + finaltarget17 tests; A6000 main bce172b563cf51dabbc3ab298f7c083976c88505. No Cobot deployment/GPU/motion, no model acceptance. Details projects/rl-platform/outputs/online-provenance-audit-20261005/.
+
+2026-10-05 HIL target/trace observation contract: received right coordinator command at interval start, same takeover epoch, fail closed on missing/mixed evidence; optional defaults preserved. Fixed raw observation/next-state cache indexing and async evidence propagation; CPU454+82 tests, A6000 main e439d6c41549d16a19f1cbc35d74ecbaf616ff1b. No model training/promotion or field deployment. Details rl-platform/outputs/hil-target-contract-20261005/.
+
+## 2026-10-05：私有输入到学习的原生闭环核验事实
+
+rl-platform 32f513a36aaa7ff55dedfba62f556f1aef4e735d 已提交push，A6000主工作区/隔离工作区干净。真实5k权重与CPU私有原生Replay/Actor/Learner、合成HIL输入验证3条记录逐字段收据及实际归一化batch指纹，15Critic/7Actor更新、完整状态恢复；私有服务/端口退出。新增经验Actor抽样2/2/0，当前500更新导出配置在15更新结束时仍2500，flush后候选2507；冻结服务动作2500不变。采样覆盖与导出时序是机制证据，不是历史根因/自主提升证据。无现场/GPU/Stage1加载/生产修改/权重晋升。详细身份、命令、配置、图和验证边界：projects/rl-platform/outputs/input-learning-chain-20261005/；源码与事实记录见项目scripts/validate_input_learning_chain.py及docs/MIGRATION.md。Guide只追加事实，本对话不提交或push guide Git。
+
+## 2026-10-05：近期经验采样模型对照事实
+
+rl-platform事实记录95edbf7a3b57ea1bcc54f8bc36b23e0c8e13195f已push，A6000主/隔离工作区干净。CPU六组配对native uniform/stratified，从不可变5k各2000Critic/1000Actor更新，目标/loss/划分固定；本研究近期抽样约1.88%→40.03%。六旧辅助成功开发Episode关节相对uniform改善5.6%、夹爪变差8.8%，整Episode区间支持取舍，联合代理条件失败；无候选晋升或真机效果结论。可追trace动作的Online训练仅1个含人类动作Episode，对应Online开发0个，独立测试缺失；cached输入/反馈身份边界保留。研究池不是生产4013 Replay，不混用比例。六研究完整状态仅留A6000，来源/命令/配置/四图/结论：projects/rl-platform/outputs/recent-sampling-model-study-20261005/。PID720279已退出，GPU/现场/生产默认/Replay/权重/固定上游未改；后续离线定位夹爪loss/source梯度。Guide只追加事实，本对话不提交或push guide Git。
+
+2026-10-05 Actor source/gripper study: CPU42 native cases,7 parity exact; gripper absolute roundtrip exact. Initial5k policy/expert updates worsen old6 assisted grip fit, HIL improves; noQ does not fix it. Six paired non-HIL gripBC0.5 training runs reach7000/3500, matched index hashes; stratified old6 grip improves0.03490mm vsnative but expert worsens0.02430mm and initial5k retention gate fails. No Actor promotion/field/GPU/production/default/upstream changes. Factual release 60e53aad5e8df3e4d23de4a0a55eeb6e316bc23e; outputs/gripper-update-diagnosis-20261005 REPORT/delivery/3figures and source identity. Independent capability/acceptance insufficient. Guide Git untouched.
+
+2026-10-05 raw image identity audit:216HDF5/648camera arrays uncompresseduint8; rawWarmup170/31598frames andOnline46/4674, sourcecamera skew>100ms0, regressions0. One invalidzero frameWarmup9/155; ID9absent archived5k (notfullUUID proof). 59recordings65gaps>200ms, no fabricated continuity. Exact historical VLA input still insufficient; no newtraining/GPU/field/production changes or Actor acceptance. Record release 1c0fe7eed35d5963d852317860e438379fcfff1a; outputs/input-image-identity-20261005 REPORT/delivery/timingfigure. GuideGit untouched.
+
+2026-10-05 frozen proposal/command probe: CPU13 states x2891 cachedwindows/220Episode, nativeRightArm first-command .03rad/.004m clips0; no future-state/field simulation. Initial5k old6 assisted DEV Q1 HIL-direction derivative allEpisodeavgnegative, mean-.04808 CI[-.06678,-.02938], Q2CIcross0/minQnegative. Not historical proposals/optimal commands or task proof. Multi-axisCI summary layout fixed;7 priorstate pairedendpoints agree, source/norm/stateSHA verified, worker826360 terminal. Recordrelease bdf59dd2141f8c38dd621eaa213bbf5e0d7d1da5; outputs/proposal-execution-diagnosis-20261005 REPORT/delivery/2figures. No training/GPU/field/production changes or Actor promotion. GuideGit untouched.
+
+2026-10-05 bounded lossless Replay inputs: source release 0b50423331bedc752cb14bbc14709ee87bcbddb2, defaultsnapshotcount0, max3/EnvDriver and8MiB rawarrays each, explicitindependentroot+trace+inputaudit. Restore RGB/state/prompt/RTC/native/actualserializer receipts, no pickle/model loading. CPU27targeted/468full tests; private real5k syntheticchain3snapshots->15Critic/7Actor->staged2507/served2500 exactresume, ownedservices/ports exited. Real oldcandidateRGB+syntheticfeatures5.53MB->1.00MB roundtrip,130mswrite/29msread(singlefilesystemsample, not fieldlatency). No production/default/upstream/field/GPU changes or Actorpromotion. Modelconsistency/validcommands/independentcapability still insufficient. outputs/input-snapshot-verification-20261005 REPORT/delivery; GuideGit untouched.
+
+2026-10-05 actualStage1 lossless-input CPU closure: sourcebase0b50423, two independent restores/4cores, retainedcandidateRGB+rightstate frames0/2/freshplugprompt, one synthetic native transition. All6 current/next z/proprio/ref native and serializer outputs exact;31assetSHA unchanged, workers879350/882640 exited. Factrelease b138e79834511958ac16f20d4b7e484f460b2db0, main/origin clean. No training/GPU/field/production changes/Actorpromotion; historicalinput/validHIL/independentcapability still insufficient. Details rl-platform/outputs/stage1-input-snapshot-model-20261005 REPORT/delivery. GuideGit untouched.
+
+2026-10-05 realStage1->frozen5k Actor closure: CPUtwofreshdiagnosticanchors/4native-or-storedfeature calls, exactnativeRPC/direct outputs, actualcheckpoint/snapshottree identical, originalnormSHA verified; firstcommandclipping0. FP16featurequantization atmost.000474rad/.0399mm andQ1+.0036 on2anchors, notindependenttest/rootcause/taskgain. Privateanalysisnormidentity/logpath errorsfixed, failurespreserved; worker898496/Actor898526+failedActor896931 andports43105/35491 exited. No training/GPU/field/production/modelpromotion. Facts acd1cd2a3b84b322085deab838de1725d0d1d5fd main/origin clean; outputs/stage1-actor-chain-20261005 REPORT/delivery/figure. GuideGit untouched.
+
+2026-10-05 preonlinepacket/entryfix: real5k nativeCLI formalseedblock oldexplicitstaged->automatic reproduced; rlt_up nowforwards explicitCOBOT_RLT_SEED_PUBLICATION_POLICY/COBOT_RLT_SEED_REPLAY_BUDGET_POLICY, defaultsautomatic/new_arrivals preserved, reusedbranch requestedpolicy+Actorpath conflictreject/no mutation.19targeted/478full, complete5k params/optimizer/RNG/sourceSHA andresume unchanged. 5320b568ebd1881a04ed8b43b2b6a3942ae9cd7a main/branch pushedclean. Outputs/preonline-delivery-package-20261005 REPORT/manifest/delivery/6keyfigures/standaloneoperatorprompt; modelupgrade andOnline notaccepted, no newActorpromotion. No GPU/field/services/training/productionassets/default/upstream modifications. GuideGit untouched.
+
+2026-10-05 field static delivery: rl-platform88b1bdae71fdf34aa0a8bddb090bf0e451aeece0 pushed/mainclean,622fieldSHA verified;19oldfiles backedup/56added plus second audittool/doc backup, no conflicts/default changes. Field9imports/68CPUcontracts passed;31Stage1/immutable5k/norm matched. Actualshortprompt CPU Stage1 sixfields exact across2processes and4native ActorRPC exact. No fieldGPU/model load/services/motion; Replay unchanged; no newActor/Online acceptance. Pending explicit bounded non-motion GPUcheck + independent frozen robot evidence. Details projects/rl-platform/outputs/preonline-field-verification-20261005/; guideGit untouched.
+
+2026-10-06 actual Cobot RTX4090 no-motion verification COMPLETE: native faithful20/async_rtc20 actual fixed5k Actor2500 each30 simulated steps, GPU backend, exit0/25.195sec. Fixed diagnostic wrong async backend and explicit phase to avoid Reference substitution;480 full+2fieldCPU regressions pass. faithful synthetic chunk-boundary interval130.445ms/effective17.924Hz vsasync20.000Hz, not robot outcomes.31Stage1/5k/norm/Replay/recording unchanged;web970937 retained, RLT offline, recorderidle, owned jobs exited/GPUreleased. No Actorpromotion/default/fieldservices/motion; independent autonomous tests0, Online acceptance pending. Source beec5db08f3631b8a1f7ae7cbf55b224e2bff906, report/8figures/receipts/operatorprompt projects/rl-platform/outputs/preonline-gpu-20261006/. Guide Git not committed or pushed.
+
+### 2026-10-06 eRLT/开源核对与训练诊断交付
+
+rl-platform最终250c5a2（代码9b7601e）已push/sync Cobot630文件SHA一致，A6000两目录495测试通过/61既有warning，Cobot实际Python3.10 CPU专项15通过。真实固定5k/归档2567训练数据CPU审计已有分路投影/LayerNorm、七维动作梯度非零；两私有8更新分支加诊断前后参数/优化器/RNG/旧指标完全一致。新增默认关闭原生TD诊断、缺指标留空训练曲线、完整Episode成功率AUC工具；eRLT2610.00913v1 AUC不是Critic ROC-AUC，外部开源cccf949c仍完整Actor输出，未照搬residual/截断/算法。详见rl-platform outputs/erlt-reference-review-20261006/REPORT.md及现场prompt。
+
+没有新Actor晋升或模型能力改善证明，原5k仍基线；本批无现场GPU/模型加载、服务启停或运动，生产资产/默认/上游不变，web970937/RLT offline/recorder idle。可准备受控冻结真机验收，直接持续Online能力仍证据不足。此处只记所属项目事实，不修改guide治理、不提交guide Git。
+
+2026-10-06 acceleration/HIL studies: code f5f11f5 and factual release 123b4d4af0972788cd1887174c34ea0f510bdd34; committed async actions now keep their old Reference/version/source, RTC on/off and delay0/2/4 verified. Opt-in async20/noRTC/no smoothing, defaults unchanged. CPU18 paired private continuations reject HIL-source deletion; four-pool and lower-budget benefits remain imitation-only with joint/grip/old-scene tradeoffs, no Actor promotion or independent test. A6000 503tests/61existingwarnings, CobotPython3.10CPU29,630sourceSHA verified and protected5k/ReplaySHA unchanged. Mount restored; web8015 read-only query refused, no field service/GPU/model/motion changes. REPORT/5figures/config/commands/SHA/failures/operatorprompt in rl-platform/outputs/acceleration-hil-ablation-20261006; GuideGit untouched.
+
+
+## 2026-10-06：共享采集／评测trace终结修复
+
+现场MC30 Frozen Actor3740与Warmup5k Actor2500均在轮次收尾因CollectionTrace缺少finalize导致env_driver退出。修复4ce0a88补齐共享包装器转发及评测NoTraceWriter空生命周期，保持本轮用途锁定，评测不写采集trace；记录2c28d5b。A6000相关88通过，9新增回归在基线均失败、修复后通过；全量383通过/19原有环境失败，与基线失败集合一致。Cobot冻结Python3.10实际14项收尾回归全部通过，630源码文件SHA校验一致。
+
+源码锁内同步保留15个现有ROS/相机/臂/web/Stage1进程身份；用户随后自行重新加载Warmup5k（PID83992），16:26只读ready/disarmed/policy_paused=true、Session未开始、step0、Learner disabled。本会话未执行恢复POST、模型/网页/硬件启停或运动；真机修复后终结轮次尚待用户验证，不补写历史pending trace/Replay。16:14故障轮metrics transitions_written=0。详细事实及证据见主项目docs/MIGRATION.md、scratch/rl-platform/trace-writer-lifecycle-20261006和现场runtime/verification/trace-writer-lifecycle-20261006。Guide仅追加事实，不提交/推送Git。
+
+后续现场观测更新：用户自主执行的Warmup5k Frozen评测连续三轮点击success均正常收尾，metrics原生episode245/246/247为success=1、transitions_written=0，Actor2500；日志三次success提交，无Traceback，env_driver85189仍存活，随后用户开始第四轮。证明本次评测终结崩溃已在真实调用路径消除；不将操作者标签当成独立成功率验收，采集入Replay、failure/aborted真机路径仍未在本批现场试验。证据live-terminal-observation.json（现场）/同名txt（A6000scratch）。
+
+
+## 2026-10-06：A6000归拢与按轮更新候选
+
+主仓库main4036c06a53c3cd1dd966e696e2295da7f11dcdd1已推送；独立experiment/roundwise-online-20261006验证后仅串行fast-forward，其他worktree保留。可选CPU按轮工具提供完整Episode/source/奖励检查、多次接管截断、四池归一化与Episode先采样、Actor全轨迹／无Q梯度、完整恢复／原生导出；默认Online／原5k／Replay／固定上游不变，未同步现场或操作服务／GPU／机器人。
+
+两种子六完整候选各Critic1000／Actor1500：末段Actor损害旧专家和自主成功拟合；全轨迹／低LR缓解，仍无独立位置OOD任务及保持放行证据，候选不发布。CPU原生导出32状态最大误差1.1921e-7，恢复全部参数／优化器／RNG和双采样状态逐位一致。最终422通过／18基线同名环境失败；source SHA不变。生产Replay只读4013行279Episode，时间代理合格1800、混合37，非评审1861。
+
+1311既有笔记本产物逐SHA归拢A6000（1227相同／84补齐／0冲突），收据scratch/rl-platform/laptop-artifact-migration-20261006；新增实验和图仅A6000。Windows副本删除被自动策略拒绝，旧副本保留未绕过。证据outputs/roundwise-online-review-20261006/REPORT.md、delivery.json及6图；正式流程docs/ROUNDWISE_ONLINE.md已展示后落盘。guide仅追加事实，不提交／推送guideGit。
+
+早期adhoc网页查询拒绝为继承HTTP代理影响，禁用代理后200，不是服务故障；用户冻结评测Replay0／Learner禁用，不计为Online已学习改善。现场后续操作所有权仍归用户。
+
+
+2026-10-06 follow-up：笔记本旧产物已采用可恢复Windows回收站方式清理，1311文件和临时3文件在原路径消失，回收站内SHA复验一致，未清空回收站。A6000迁移副本保留；清理收据scratch/rl-platform/laptop-artifact-migration-20261006/cleanup-recycle-20261006.json。早先永久删除策略拒绝为历史结果，不再描述为当前未清理；具体拦截规则未知。guide仅事实追加，不提交推送Git。
+
+
+2026-10-06 frozen target/jitter localization: core2dae01b/final6c6c20f pushed,13fieldfilesSHA verified; A6000 and actual CobotPython3.10 CPU76each. Diagnostic-only aborted retention/queued Actor+Reference/physical schedule+feedback/request evidence and Episode-based analyzer; defaults/5k/Replay/sharedVLA/web/upstream unchanged.9selected processes and protected5k/ReplaySHA unchanged; fieldoffline/recorderidle, no model/GPU/motion. Next-runtime fixed5k diagnostic opt-in enabled; six measured-position frozen DEV Episodes required, no newActor/Online acceptance. Report/operator prompt/delivery projects/rl-platform/outputs/position-jitter-diagnosis-20261006; workflow docs/FROZEN_LOCALIZATION.md. GuideGit untouched.
+
+
+2026-10-06 active-control correction and Critic-policy study: user confirms fixed left arm and gripper; withdraw inactive-gripper prediction error as task degradation/rejection gate.15 matched CPU continuations,2000Critic/1000Actor each, plus exact held-gripper external20DEV inference(all15). MC reduces HIL-vs-Actor Qgap without consistent active6-fit benefit; currentQ0 improves fitting versusQ0.1, small effects. Active6 teacher retention better preserves old TRAIN, external5autonomous/6assisted DEV fits approximately retained; CIs cross0, no autonomous/OOD gain claim or independent TEST.18 tests passed; no field/source/weights/Replay/default operations. Sourcef23e70c, final factual15b57d9 pushed main; main/worktree clean. Full hashes/config/commands/plots: projects/rl-platform/outputs/critic-policy-bootstrap-20261006/REPORT.md and delivery.json. GuideGit not committed/pushed.
+
+
+## 2026-10-06 Supported7k 离线交付
+
+主仓main/实验分支4805d545c1551fe239d0baebac22956ddef36586已推送。18组匹配CPU续训，实际新7000/Actor3500候选，MC30/Q.1/active6保持50/ActorLR1e-5；修复async RTC完整输入缓存身份与候选专家phase合同。2496窗/201Ep private TRAIN、90专项测试在3.11/冻结3.10均通过，原生8更新连续/4+4恢复逐位一致，冻结32输入最大误差1.19e-7。
+
+A6000事实：projects/rl-platform/outputs/supported-online-20261006/{REPORT.md,delivery.json,progress.json,operator_prompt.txt,release/manifest.json}；流程docs/SUPPORTED_ONLINE_DELIVERY.md。新冻结/Online可选ID已登记于主代码，原5k默认未改。源码/76.8MB私有候选资产bundle保存在A6000，未安装Cobot；现场只读GET旧5k仍ready，未启停/加载/运动/占现场GPU，用户保持现场所有权。候选具备离线软件/恢复及代理稳定性证据，不具备独立自主Online持续增益证明；新RTC真实Stage1/延迟与新候选受控冻结验收仍需补证，staged候选更新不自动发布。guide只追加事实，无Git提交/推送。
+
+
+## 2026-10-07：Online当前数据与末端曝光对照
+
+主项目7a9c58c676cbc749a0a2563dabb78e5cb1357e60已main/branch推送；现有完整7000参数/Adam/target/RNG跨机逐叶身份一致，3臂204实际batch CPU对照只改失败terminal slot配额。quota4压低新末端Q1但损害旧HIL回报/mixed目标拟合，未采用。新增隔离工具及资产输出守卫7合同测试在A6000 Python3.11/3.10均通过，无现场代码/参数/权重/Replay/服务/动作/GPU修改。
+
+现场2777窗208Episode，新增7条281窗全采样、Critic281/Actor140更新，保存7281/3640但served3500未发布；新1次HIL18窗7含human、53独特human步，首18更新Critic25/Actor13 HILdraw。281strict回执与journal数组SHA全匹配。TRAIN新自主拟合改善但旧HIL部分代理退化，独立TEST/自主收益不足。累计50.1ms时钟故障发生在Learner caught-up，尚未修复；末轮录制仍未完成。收尾标签到Replay10.993s中逐窗回执跨度10.632s，成本待细分。事实报告/4图/命令/全部SHA与可恢复进度：projects/rl-platform/outputs/terminal-exposure-20261007/{REPORT.md,PROGRESS.json}，正式记录docs/audits/2026-10-07-online-current-data-terminal-exposure.md与MIGRATION.md。用户只断机械臂电源；此处仅摘要追加，不提交或推送guide Git。
+
+同批最终只读2026-10-07T18:39:28.669309+08:00：故障录制已由现场收尾，stopped/committed episode_000010.hdf5/3000帧，原“仍未完成”为早期快照；Native仍退出/Stage1保留，时钟问题未修复。事实补记d92d54d57b2762895e6b440d13d620feaade7e8d已推送main；guide Git不由本对话提交。
+
+
+## 2026-10-07：Online 下一轮策略与近期Episode采样对照
+
+主项目d808b4994e95b2cd2c5bc0ba78a800bff6b757dd已main/隔离分支推送；6组CPU、3采样种子配对、每组281Critic/140Actor更新。仅改recent51slots窗口→Episode，其他77slots配对不变。新1条HIL TRAIN拟合改善1.0–2.7%，重复DEV失败Q—行为回报误差跨种子均值恶化；未采用/发布。固定实际7281六batch局部梯度显示当前Q和保持对该HIL探针方向有帮助，混合BC四批冲突；不足以证明全局Q正确。新增工具11测试通过，全部指标有限，Episode级bootstrap/3图/命令SHA保存在projects/rl-platform/outputs/online-rollout-strategy-20261007，正式审计docs/audits/2026-10-07-online-rollout-strategy.md。累计失败draw12.33%但末段22.06%，不能固定理解为8:2。实际served3500、Learner7281/待发布3640；无现场服务/权重/配置/Replay/模型/GPU/动作改变。P0累计发布时钟未修，后续先修再采有位置标记的纠正TRAIN；无独立TEST/自主持续提升证明。Guide仅事实追加，不提交推送Git。
+
+
+## 2026-10-07：发布准备时序修复已同步现场
+
+源57b378f（最终记录5e5fdcd1cd12e472e8febe5826ff08ff64598ecd）已主项目main/隔离分支推送；把插值/EMA移到等待前、复用发送前控制检查反馈，物理限速检查从发送后移至发送前。保留50ms单次/C10累计保护和暂停/HIL/200ms阻塞停止；partial故障命令写日志，不伪造Replay。合成原40/50Hz正常准备开销累计超时可复现，修复后四频率各120逻辑步通过；A6000相关125、现场实际模块冻结Python3.10 CPU48通过。模型操作锁内同步单模块SHA b04a782b；Stage1 PID2073785/start8759073与19项配置/Replay/权重保护SHA保持。未恢复进程/加载模型/运动/占GPU/发布Actor；真实运行仍待用户按现有入口恢复并验证。证据projects/rl-platform/outputs/publication-preparation-20261007及docs/audits/2026-10-07-publication-preparation.md、MIGRATION.md。guide只追加事实，不提交推送Git。
+
+
+## 2026-10-07：Online离线准入收尾
+
+rl-platform main/隔离分支8e39f6337dc65965ac66df8288fadbc42b6d03e4已推送且干净。六组CPU三配对seed只改Actor近期51slots采样，Critic批次相同；新单条HIL TRAIN拟合改善1.0–2.63%，前次Critic采样代价明显缩小，仍未采用/发布。实际7281完整状态8vs4+4恢复、pending导出、64状态原生CPU推理及旧预算不重复通过；18专项测试通过。
+
+实际3500/3640在20重复DEV370缓存状态复核两次逐位一致，但自主Q1回报代理变差、辅助p95微增，不能认证全面改善。新工具与3图/六候选/命令SHA/操作单保存在projects/rl-platform/outputs/online-admission-closure-20261007，详见docs/audits/2026-10-07-online-admission-closure.md。本批不改生产资产/配置/现场源码，无服务POST/GPU/运动；前次发布修复b04a782b仍已安装，20:51运行退出/录制完成/Stage1保持、7项SHA相同。可交接首轮受控Online验证，候选暂存，独立TEST/自主持续收益未通过；guide仅追加事实，不提交推送Git。
+
+
+## 2026-10-08：再次控制发布超时（仍不放行正常Online）
+
+实际新代码b04a782b在Episode10011/step476单次迟到135.2ms退出，之前1190物理发布调用max.622ms，trace append开始→下次prepare154.3ms，尚无历史分段确定全部原因。Learner7281一直caught up，Replay仍2777；录制UUID bbf2aa91-1d12-4013-9f6f-5983cf134f3e明确writer_queue_overflow（523采样/267写入），不完整、不入Replay、不计任务失败率。
+
+源5c46cbb修复控制线程同步USB trace：异步有界数值队列64/最长pending1s、终止flush准入、错误/满队列fail closed，保留发布50ms保护并补fault分段；已先A6000提交push后现场锁内同步4模块，A6000/现场实际环境各85CPU回归通过，Stage1 PID3419827/start17242517与12项配置/权重/ReplaySHA保持。未恢复/加载/运动/GPU，不宣称根因全部消除。HDF5队列溢出仍待录制领域诊断，正常Online不放行。
+
+最终记录d5071030dfab0dfc3ddb078d8e37798bb75b5690见主项目docs/audits/2026-10-08-recurrent-publication-timeout.md；全部证据/时序图/测试/原始失败/安装回执/recording-handoff.txt在projects/rl-platform/outputs/recurrent-publication-timeout-20261008。guide仅事实摘要，不提交推送Git。
+
+
+## 2026-10-08：发布反馈采样修复及受控Online首轮交接
+
+源58bdc76在A6000隔离分支验证提交push后同步Cobot两个执行模块；发送前的纯反馈/权限检查不再解码RGB，相机/关节新鲜度、HIL/暂停和50ms单次/C10保护保留。3ms三相机合成开销在旧版四频率复现51ms退出，新版各120逻辑步通过；A6000/现场Python3.10 CPU各87回归通过，7项权重/Replay/配置SHA不变。录制修复的timing字段已在实际API可见，前次“尚未生效”不再适用。
+
+本批无服务重启、模型加载、GPU或运动，当前offline/recorder idle、控制mode=fault，硬件成因未诊断，设备正常后才进入首轮受控Online。修复随下一次RLT进程加载生效；首轮完整标注/录制/入库/更新需现场验证，不等同长期连续稳定或自主收益认证，pending Actor不自动晋升。事实、图、命令、保护SHA与回退见projects/rl-platform/outputs/publication-feedback-20261008及docs/audits/2026-10-08-publication-feedback.md。Guide Git不提交/推送。

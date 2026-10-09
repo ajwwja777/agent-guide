@@ -1,5 +1,9 @@
 # Cobot 采集、HIL 与 DAgger
 
+## 当前摘要（2026-10-09 复核）
+
+10 月 8 日已修复录制迟到时重复补采当前缓存的调度问题，保留真实时间缺口，并新增有界队列/写入时延诊断。领域 80 项、跨项目 78 项及现场合成 480 帧验证通过；该验证不是模型并发负载下持续录制或真实 HIL 验收。RL 后续记录确认 timing 字段已在实际 API 可见，早期“尚未重载”仅代表当时阶段。原始控制停顿的唯一根因及存储长尾仍证据不足。来源：实际项目 docs/audits/2026-10-08-recorder-backpressure.md、docs/MIGRATION.md，以及 RL 10 月 8 日发布反馈记录；本轮未复跑现场。
+
 ## 2026-09-30：项目对话入口与并行协作交接
 
 用户指定 cobot-dagger 对话负责本领域，允许多个专题及 fork 并行。笔记本 D:\Code\jiaan_workspace\cobot-dagger\AGENTS.md 指向本项目；职责、当前问题、worktree/任务范围登记与现场单一负责人约定见 /data/LFT-W02_data/jiaan/jiaan/projects/cobot-dagger/AGENTS.md。对话不共享实时上下文，接管重查 Git 和现场，不沿用历史 PID/版本。
