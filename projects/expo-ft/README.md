@@ -1,5 +1,11 @@
 # EXPO-FT × Cobot
 
+## 当前本地状态（2026-10-09 后续）
+
+本项目没有笔记本运行需求：本地仅 AGENTS.md，旧仓库、两层 .git、缓存和传输 tar 已从项目目录移除，进入可恢复 Windows 回收站，未清空回收站。完整旧仓库和未提交适配保存在 A6000 scratch/expo-ft/laptop-migration-20261009/repository；重新核验 322 个保留文件，其中 320 个与原归档逐字节一致，两个 Git 索引差异另存 cleanup-original-git-metadata，原始版本未丢弃。额外迁移记录已补存 cleanup-source-extras。
+
+代码/Git 在 A6000，现场部署按需在 Cobot，不在本地保留运行仓库；正常开发仍使用 projects/expo-ft，历史适配不自动合入当前主仓库。此前“暂留本地副本、删除被拒绝”是历史阶段，后续采用回收站完成清理。实际项目 docs/MIGRATION_20261009.md 和 scratch/expo-ft/laptop-migration-20261009/cleanup-result-20261009.json 保留详细结果。来源：2026-10-09 用户本次授权与逐文件、原路径和回收站核验。
+
 ## 框架核对（2026-09-29）
 
 主仓库 main 与 OpenPI expo_ft 的 HEAD 均与各自远端一致，仍为下表版本。主仓库保留 `pyproject.toml`、`uv.lock` 两处依赖修正，未代为提交。最新跨项目交付仍将 EXPO-FT 标为待适配：环境与数据读取准备不等于 SFT/replay 适配或训练完成。下一步由算法项目确认 Cobot 数据与动作合同，再验证真实 batch 和专用归一化。
