@@ -192,3 +192,9 @@ USB 掉线重连后已完成已迁移资产的全量收据复核；尚不能据�
 本轮实际核对 16 个笔记本项目根层，均符合“入口 MD、可选 uploads、按本地运行需要创建同名子目录”的布局；storage-cleanup 保留必需的 Windows 运行副本，EXPO-FT/paper/RL 等只保留入口。paper-review-agent 当前留有空 uploads，可省略。废弃 cobot_rlt 及根层 .tmp、scratch、human_upload 已移除；回收站未清空，不将目录整改当作磁盘物理空间已释放。各项目完成记录已归入[项目索引](projects/README.md)与对应摘要，材料内容和机器清理明细仍留私有项目。
 
 来源：2026-10-09 实际目录盘点及所属项目迁移/整改记录；本轮只发布 guide 文档，不操作其他项目 Git 或现场服务。
+
+## 2026-10-09：上层旧总仓库已停用
+
+用户授权移除影响新工作区的上层 `/data/LFT-W02_data/jiaan/.git`。完整 Git 元数据已归档到 `/data/LFT-W02_data/jiaan/jiaan/scratch/agent-guide/parent-git-retirement-20261009/git-metadata/`，2,426 文件逐 SHA256 校验一致，原位置已不存在。两个历史 worktree 的 .git 指针已更新到归档位置，HEAD 和未提交状态不变；11 个现用独立仓库的 Git 位置/HEAD 不变，未改项目工作文件。
+
+新框架根及其上层现均不再被识别为 Git 仓库，终端与 VS Code 不再继承旧 master 总仓库；已打开的 VS Code 仓库列表可能需刷新。完整迁移和核验记录见同归档目录的 receipt.json。来源：2026-10-09 用户明确授权、实际元数据迁移及 Git 发现/仓库身份核验。
