@@ -60,3 +60,11 @@ source /data/LFT-W02_data/jiaan/jiaan/agent-guide/tools/workspace-env.sh
 对照测试：将现有 Shift+Esc 改为发送完整 Win32 Esc 按下／松开事件，用户确认正常；随后单独 Esc 使用同一序列，用户再次确认“esc正常没问题了”。当前在 `C:\Users\wja\AppData\Roaming\Code\User\keybindings.json` 中，Esc（`terminalFocus && isWindows`）和 Shift+Esc 均发送 `\u001b[27;1;27;1;0;1_\u001b[27;1;27;0;0;1_`；日常使用 Esc，Shift+Esc 保留作备选。Shift+Enter 与 Ctrl+Shift+V 图片粘贴保持原配置；Codex 的 `interrupt_turn = ["esc", "ctrl-x"]` 保留。此次 Esc 修改前备份：`D:\Downloads\Microsoft VS Code\config-backups\keybindings.before-native-esc-event-20261001-015822.json`。
 
 经验：Esc 字符与完整按键事件在 Windows 终端传输中可能表现不同；先对比异常／正常终端并实际验证菜单取消、任务中断及后续输入，不能把配置字符核验或换终端当作持久修复。当前修复已获用户确认；为何只在部分终端出现仍未确定，后续升级需重新核对实际行为。来源：本机配置、只读控制台模式检查、用户对照反馈与 [Microsoft Win32 按键传输规范](https://github.com/microsoft/terminal/blob/main/doc/specs/%234999%20-%20Improved%20keyboard%20handling%20in%20Conpty.md)。
+
+## 2026-10-12 codex-auth 账号查询修复
+
+笔记本工具位于 `C:\Users\wja\AppData\Local\codex-auth\`，账号池位于 `C:\Users\wja\AppData\Local\codex-auth-state\auth-poll.json`。两个未使用账号的 access token 过期，原脚本未刷新即查询额度，导致 HTTP 401；界面 `expires` 来自缓存的订阅日期，并非 access token 有效期。
+
+已修改本地 `codex-auth.sh`，新增 `refresh-pool.py`，通过官方 Codex app-server 在独立临时 CODEX_HOME 刷新过期的非当前账号，将成功刷新的凭据原子写回账号池，保留备份与刷新中断恢复副本；当前 `auth.json` 不由该刷新逻辑改写。刷新失败保留原凭据，并显示重新登录或网络排查提示。两个账号本次查询均恢复正常；当前账号保护、失败保留与原有登录／切换测试通过。凭据与状态文件不入库。
+
+来源：本对话本机检查与验证；[官方认证说明](https://developers.openai.com/codex/auth)、[官方 app-server 说明](https://developers.openai.com/codex/app-server)。
