@@ -92,3 +92,7 @@ EXPO-FT 的两处依赖修改仍未提交，适配／训练待开展；PREPARATI
 EXPO-FT 仅保留笔记本 AGENTS.md；完整旧 Git/未提交成果归 A6000 scratch/expo-ft/laptop-migration-20261009/repository，两个原始 Git 索引差异另存 cleanup-original-git-metadata。旧 cobot_rlt 目录已移除，34 份 RL 历史分析/图表归 RL，9 份网页文件归 web，2 份交接入口归 guide；当前维护按五领域入口进行。
 
 两处本地旧副本已移入可恢复回收站并核验原路径消失，未清空回收站；代码运行与项目 Git 不留在 EXPO-FT 笔记本入口。归档/清理收据见 scratch/agent-guide/retired-cobot-rlt-20261009/receipt.json 与 scratch/expo-ft/laptop-migration-20261009/cleanup-result-20261009.json。来源：用户本次授权及实际操作回执，未操作其他项目 Git 或现场服务。
+
+## 2026-10-25 Franka 网页项目
+
+- [franka-web](franka-web/README.md)：Rust Franka 操作网页，参考 cobot-web。三机目录和对话入口已准备，公开仓库 main `ddcb8b1` 已发布并在 Franka clone；新对话先确认首版方案与功能，尚未实现应用。
